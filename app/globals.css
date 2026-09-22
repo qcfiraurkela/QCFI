@@ -215,6 +215,7 @@ img {
   z-index: 1000;
   transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
+@media (max-width: 1100px) { .elite-back-btn { display: none; } }
 .elite-back-btn:hover {
   background: var(--accent);
   color: white;
@@ -823,19 +824,41 @@ header.glass-nav.secret-pulse {
 /* ── Split Grid ── */
 .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
 
-/* ── Page Header (sub-pages) ── */
+/* ── Unified Page Sub-Header (Sub-pages) ── */
+.page-header,
 .page-header-sub {
-  padding: 140px 0 60px;
+  padding: 140px 5% 60px;
   text-align: center;
   background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--border-light);
 }
+.page-header::before,
 .page-header-sub::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
   background-image: linear-gradient(var(--border-light) 1px,transparent 1px), linear-gradient(90deg,var(--border-light) 1px,transparent 1px);
   background-size: 40px 40px; opacity: 0.3; z-index: 0; pointer-events: none;
+}
+.page-header .container,
+.page-header-sub .container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.page-header .font-mixed,
+.page-header-sub .font-mixed {
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+}
+.page-header p,
+.page-header-sub p {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ── Keyframes ── */
@@ -897,7 +920,7 @@ header.glass-nav.secret-pulse {
 
 /* ── Quality Concepts page ── */
 .concept-tabs-wrapper { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-.tabs-scroll-area { display: flex; gap: 0.75rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 1.5rem 5%; max-width: 1000px; margin: 0 auto; justify-content: flex-start; }
+.tabs-scroll-area { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; align-items: center; padding: 1.25rem 5%; max-width: 1100px; margin: 0 auto; }
 .tabs-scroll-area::-webkit-scrollbar { display: none; }
 .tab-btn { white-space: nowrap; padding: 0.6rem 1.25rem; margin: 5px 0; border-radius: 40px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4A5568; background: rgba(8,23,56,0.04); border: none; transition: all 0.4s var(--ease-out-expo); display: flex; align-items: center; gap: 8px; cursor: pointer; }
 .tab-btn .tab-num { font-family: var(--font-serif); font-style: italic; color: var(--accent); opacity: 0.8; font-size: 0.9rem; text-transform: none; }
@@ -1039,7 +1062,7 @@ header.glass-nav.secret-pulse {
   .gallery-card-3d { width: clamp(220px,80vw,320px); }
 }
 /* ── Magazine Grid & Flipbook Reader ── */
-.grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; transition: opacity 0.4s ease; }
+.grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 340px)); gap: 40px; justify-content: center; width: 100%; transition: opacity 0.4s ease; }
 .magazine-card {
   background: var(--bg-primary); border: 1px solid rgba(8, 23, 56, 0.05); border-radius: 12px; padding: 20px;
   box-shadow: 0 10px 30px rgba(8, 23, 56, 0.03); transition: transform 0.5s ease, box-shadow 0.5s ease; cursor: pointer; text-align: center;

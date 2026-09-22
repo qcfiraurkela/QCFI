@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: '%s | QCFI Raurkela',
   },
   description:
-    'Quality Circle Forum of India – Raurkela Chapter. Driving industrial methodologies and total quality management for operational excellence.',
+    'Quality Circle Forum of India — Raurkela Chapter. Driving industrial methodologies and total quality management for operational excellence.',
   keywords: ['QCFI', 'Quality Circle', 'Raurkela', 'TQM', '5S', 'Kaizen', 'Lean', 'Six Sigma'],
   openGraph: {
     type: 'website',
@@ -34,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body>{children}</body>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

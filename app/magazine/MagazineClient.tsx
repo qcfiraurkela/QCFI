@@ -3,17 +3,13 @@
 /**
  * app/magazine/MagazineClient.tsx
  * Client Component for Interactive 3D Magazines.
- * Preserves 1:1 functionality from templates/magazine.html:
- *  - Grid of magazines with cover, title, "Open Edition" button
- *  - URL param ?id=... auto-opens that magazine
- *  - Inline 3D flipbook reader using PDF.js & StPageFlip
- *  - Page-turn audio playback
- *  - Advanced close button returning smoothly to the grid
- *  - Full cleanup on destroy
+ * High-end aesthetic with consistent Navbar, Footer, and responsive Flipbook.
  */
 
 import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import EliteBackBtn from '../components/EliteBackBtn';
 import type { MagazineRow } from '@/lib/supabase-db';
 
@@ -39,7 +35,6 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const pageFlipInstanceRef = useRef<any>(null);
 
-  // Check when both external scripts are ready
   const checkScriptsReady = () => {
     if (typeof window !== 'undefined' && window.pdfjsLib && window.St?.PageFlip) {
       window.pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -48,7 +43,6 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
     }
   };
 
-  // Check URL param ?id=... on mount
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const urlParams = new URLSearchParams(window.location.search);
@@ -68,12 +62,10 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
     setLoadingPdf(true);
     setLoadError(null);
 
-    // Scroll reader section into view
     setTimeout(() => {
       readerSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 50);
 
-    // Destroy previous instance if any
     if (pageFlipInstanceRef.current) {
       pageFlipInstanceRef.current.destroy();
       pageFlipInstanceRef.current = null;
@@ -95,7 +87,6 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
       const container = flipbookRef.current;
       if (!container) return;
 
-      // Render each page into canvas, then img element inside page container
       for (let i = 1; i <= numPages; i++) {
         const page = await pdf.getPage(i);
         const viewport = page.getViewport({ scale: 2.0 });
@@ -119,7 +110,6 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
 
       setLoadingPdf(false);
 
-      // Initialize StPageFlip
       if (window.St?.PageFlip) {
         const pageFlip = new window.St.PageFlip(container, {
           width: 330,
@@ -167,12 +157,11 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
       flipbookRef.current.innerHTML = '';
     }
 
-    // Scroll smoothly to header
-    document.querySelector('.page-header')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    document.querySelector('.page-header-sub')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-primary)' }}>
       {/* External dependencies for PDF & 3D Flipbook */}
       <Script
         src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"
@@ -185,25 +174,34 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
         onLoad={checkScriptsReady}
       />
 
-      {/* Elite Back Hub Button */}
+      {/* Shared QCFI Glass Navbar */}
+      <Navbar />
+
+      {/* Elite Back Hub Button (visible on wide screens, safely away from header) */}
       <EliteBackBtn href="/#magazine-section" label="Back to Hub" />
 
-      {/* Page Banner */}
-      <section className="page-header">
-        <span className="eyebrow eyebrow-center">Publications & Archives</span>
-        <h1 className="font-mixed">
-          Interactive <span className="serif-italic">Magazines.</span>
-        </h1>
-        <p style={{ marginTop: '1.5rem', color: '#4A5568', maxWidth: 500, marginInline: 'auto' }}>
-          Immerse yourself in our hyper-realistic interactive flipbooks documenting industrial excellence and continuous improvement.
-        </p>
+      {/* Page Sub-Header - Perfectly Centered */}
+      <section className="page-header-sub">
+        <div className="container">
+          <span className="eyebrow eyebrow-center">[ Publications & Archives ]</span>
+          <h1 className="font-mixed">
+            Interactive <span className="serif-italic">Magazines.</span>
+          </h1>
+          <p className="text-body" style={{ marginTop: '1.25rem', maxWidth: 580, marginInline: 'auto' }}>
+            Immerse yourself in our hyper-realistic interactive flipbooks documenting industrial excellence and continuous improvement.
+          </p>
+        </div>
       </section>
 
       {/* Magazines Grid Selection */}
       <section
         id="magazine-grid-section"
         className="container"
-        style={{ display: activeMagPdf ? 'none' : 'block' }}
+        style={{
+          display: activeMagPdf ? 'none' : 'block',
+          padding: '4.5rem 5% 6rem',
+          flex: 1,
+        }}
       >
         <div className="grid-layout">
           {magazines && magazines.length > 0 ? (
@@ -239,9 +237,9 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
               </div>
             ))
           ) : (
-            <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#4A5568', padding: 40 }}>
-              No magazines published yet.
-            </p>
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#4A5568', padding: '60px 20px' }}>
+              <p className="text-body">No magazines published yet. Check back soon.</p>
+            </div>
           )}
         </div>
       </section>
@@ -251,7 +249,7 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
         ref={readerSectionRef}
         id="inlineReaderSection"
         className="inline-reader-section"
-        style={{ display: activeMagPdf ? 'block' : 'none' }}
+        style={{ display: activeMagPdf ? 'block' : 'none', flex: 1 }}
       >
         <button className="close-btn-advanced" onClick={closeReader}>
           Close Edition
@@ -262,6 +260,7 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
+            style={{ width: 14, height: 14 }}
           >
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -269,9 +268,8 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
         </button>
 
         {loadingPdf && (
-          <div id="readerLoading" className="loading-state">
-            <div className="spinner" />
-            <p>Processing High-Resolution Data...</p>
+          <div id="readerLoading" style={{ textAlign: 'center', padding: '80px 20px' }}>
+            <p className="text-body" style={{ color: 'var(--accent)', fontWeight: 600 }}>Processing High-Resolution Data...</p>
           </div>
         )}
 
@@ -299,12 +297,8 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
         preload="auto"
       />
 
-      {/* Minimal Footer */}
-      <footer style={{ backgroundColor: 'var(--text-dark)', color: 'white', padding: '4rem 5%', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', fontSize: '0.85rem', letterSpacing: '0.05em', marginTop: '4rem' }}>
-        <div className="container">
-          &copy; 2026 QCFI Raurkela Chapter. All Rights Reserved. Engineered for Excellence.
-        </div>
-      </footer>
+      {/* Shared QCFI Footer */}
+      <Footer />
     </div>
   );
 }

@@ -149,7 +149,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
 
   /* ── Scroll reveal ── */
   useEffect(() => {
-    const opts = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+    const opts = { threshold: 0.05, rootMargin: '50px 0px 50px 0px' };
     const obs = new IntersectionObserver((entries, observer) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -367,7 +367,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
       <section className="section-spacing" style={{ paddingTop: 0, borderTop: '1px solid var(--border-light)', paddingBottom: '6rem', overflow: 'hidden' }}>
         <div className="container reveal-up">
           <div style={{ marginBottom: '1rem' }}>
-            <span className="eyebrow">[ 02.1 / Visuals ]</span>
+            <span className="eyebrow">[ 03 / Visual Archives ]</span>
             <h2 className="font-mixed" style={{ lineHeight: 1.1 }}>
               Our <span className="serif-italic">Photo Gallery.</span>
             </h2>
@@ -442,8 +442,11 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
       }}>
         <div className="container reveal-up">
           <div style={{ marginBottom: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <span className="eyebrow eyebrow-center">[ 02.5 / Publications ]</span>
+            <span className="eyebrow eyebrow-center">[ 04 / Periodicals & Publications ]</span>
             <h2 className="font-mixed">Our <span className="serif-italic">Magazines.</span></h2>
+            <p className="text-body" style={{ maxWidth: 580, margin: '1rem auto 0' }}>
+              Explore our flagship publications covering industrial quality circles, regional conclaves, and continuous improvement case studies.
+            </p>
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4rem' }}>
@@ -489,7 +492,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
         overflow: 'hidden', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)',
       }}>
         <div className="container" style={{ marginBottom: '3rem' }}>
-          <span className="eyebrow">[ 03 / Core Methodologies ]</span>
+          <span className="eyebrow">[ 05 / Core Methodologies ]</span>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem' }}>
             <h2 className="font-mixed" style={{ lineHeight: 1.1, maxWidth: 600 }}>
               <span className="serif-italic">Quality</span> Concepts
@@ -541,7 +544,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
       ═══════════════════════════════════════════ */}
       <section className="section-spacing">
         <div className="container reveal-up">
-          <span className="eyebrow">[ 04 / Process Architecture ]</span>
+          <span className="eyebrow">[ 06 / Process Architecture ]</span>
           <h2 className="font-mixed" style={{ marginBottom: '4rem' }}>
             Flow of <span className="serif-italic">Implementation</span>
           </h2>
@@ -574,7 +577,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
         <div className="container">
           <div className="quiz-premium-grid">
             <div className="quiz-info reveal-up">
-              <span className="eyebrow">[ Knowledge Assessment ]</span>
+              <span className="eyebrow">[ 07 / Knowledge Assessment ]</span>
               <h2 className="font-mixed" style={{ marginBottom: '1.5rem', textAlign: 'left', maxWidth: 600 }}>
                 Verify your core <br /><span className="serif-italic">industry expertise.</span>
               </h2>
@@ -623,7 +626,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
       <section className="section-spacing">
         <div className="container split-grid faq-container">
           <div className="reveal-up">
-            <span className="eyebrow">[ 07 / Documentation ]</span>
+            <span className="eyebrow">[ 08 / Conclaves & Events ]</span>
             <h2 className="font-mixed">Frequently Asked <span className="serif-italic">Questions.</span></h2>
           </div>
           <div className="reveal-up delay-200">
@@ -689,7 +692,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
       <section id="contact" className="section-spacing bg-secondary">
         <div className="container split-grid">
           <div className="reveal-up">
-            <span className="eyebrow">[ 08 / Network ]</span>
+            <span className="eyebrow">[ 09 / Network & Contact ]</span>
             <h2 className="font-mixed" style={{ marginBottom: '2rem' }}>
               Let&apos;s build better <span className="serif-italic">systems.</span>
             </h2>
