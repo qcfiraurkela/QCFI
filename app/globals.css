@@ -581,36 +581,29 @@ header.glass-nav.secret-pulse {
 }
 .gallery-card-3d.active:hover .gallery-img-wrapper img { transform: scale(1.03); filter: saturate(1.1); }
 
-/* Minimalist Glass Control Pill */
+/* Minimalist Glass Control Pill — Constant below the 3D cover flow */
 .gallery-glass-controls {
   position: absolute;
-  bottom: -40px; left: 50%;
-  transform: translateX(-50%) translateZ(30px);
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   width: max-content;
-  padding: 0 2rem;
-  height: 60px;
-  background: rgba(255,255,255,0.65);
+  padding: 0 1.75rem;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: saturate(180%) blur(25px);
   -webkit-backdrop-filter: saturate(180%) blur(25px);
   border-radius: 40px;
-  border: 1px solid rgba(255,255,255,0.8);
-  box-shadow: 0 12px 30px rgba(8,23,56,0.1), inset 0 1px 0 rgba(255,255,255,1);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 35px rgba(8, 23, 56, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  opacity: 0;
-  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: 20;
-  pointer-events: none;
-}
-.gallery-card-3d.active .gallery-glass-controls {
   opacity: 1;
+  z-index: 35;
   pointer-events: auto;
-  transform: translateX(-50%) translateZ(30px) translateY(0);
-}
-.gallery-card-3d:not(.active) .gallery-glass-controls {
-  transform: translateX(-50%) translateZ(0) translateY(-15px);
+  transition: all 0.3s ease;
 }
 .g-btn { background: none; border: none; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; width: 32px; height: 32px; border-radius: 50%; }
 .g-btn:hover { background: rgba(29,69,237,0.1); color: var(--accent); }
@@ -621,25 +614,54 @@ header.glass-nav.secret-pulse {
 .g-dot.active { width: 16px; border-radius: 4px; background: var(--accent); }
 .play-icon { display: none; }
 
-/* ── Carousel Prev/Next Buttons ── */
-.carousel-btn {
+/* ── Carousel Prev/Next Buttons (Minimalist Clean Arrows matching initial template) ── */
+.gallery-nav-arrows {
   position: absolute;
-  top: 50%; transform: translateY(-50%);
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.9);
-  box-shadow: 0 8px 20px rgba(8,23,56,0.08);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; z-index: 30;
-  transition: all 0.4s var(--ease-out-expo);
-  color: var(--text-primary);
+  left: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 30;
 }
-.carousel-btn:hover { background: var(--accent); color: white; box-shadow: 0 12px 30px rgba(29,69,237,0.25); }
-.gallery-prev-btn-pos { left: 5%; z-index: 30; }
-.gallery-next-btn-pos { right: 5%; z-index: 30; }
+
+.gallery-nav-arrows .carousel-btn {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  opacity: 0.8;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+  border-radius: 0;
+  position: static;
+  transform: none;
+}
+
+.gallery-nav-arrows .carousel-btn:hover {
+  opacity: 1;
+  color: var(--accent);
+  transform: scale(1.2);
+  background: transparent;
+  box-shadow: none;
+}
+
+.carousel-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
 .gallery-empty-state { width: 100%; height: 100%; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; color: #4A5568; border-radius: 24px; border: 1px solid var(--border-light); }
 .pt-0-border-0 { padding-top: 0; border-top: none; }
 .lh-1-1 { line-height: 1.1; }
@@ -2729,7 +2751,11 @@ section[id] {
     filter: grayscale(50%) blur(2px);
   }
   .gallery-glass-controls {
-    display: none !important;
+    bottom: -15px;
+    height: 48px;
+    padding: 0 1.25rem;
+    gap: 1rem;
+    display: flex !important;
   }
 }
 @media (max-width: 480px) {

@@ -371,22 +371,25 @@ export default function HomeClient() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <button
-              className="carousel-btn prev-btn gallery-prev-btn-pos"
-              id="gallery-prev"
-              onClick={movePrev}
-              aria-label="Previous Gallery Image"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
-            </button>
-            <button
-              className="carousel-btn next-btn gallery-next-btn-pos"
-              id="gallery-next"
-              onClick={moveNext}
-              aria-label="Next Gallery Image"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
-            </button>
+            {/* Navigation arrow buttons placed on the left side matching initial template */}
+            <div className="gallery-nav-arrows">
+              <button
+                className="carousel-btn prev-btn gallery-prev-btn-pos"
+                id="gallery-prev"
+                onClick={movePrev}
+                aria-label="Previous Gallery Image"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+              </button>
+              <button
+                className="carousel-btn next-btn gallery-next-btn-pos"
+                id="gallery-next"
+                onClick={moveNext}
+                aria-label="Next Gallery Image"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
+              </button>
+            </div>
 
             <div className="gallery-track-3d">
               {heroImages.length > 0 ? heroImages.map((img, idx) => (
@@ -399,41 +402,6 @@ export default function HomeClient() {
                   <div className="gallery-img-wrapper">
                     <img src={`/${img.image_path}`} alt="Gallery Image" loading={idx === 0 ? 'eager' : 'lazy'} />
                   </div>
-                  {/* Minimalist Glass Control Pill */}
-                  <div className="gallery-glass-controls">
-                    <button
-                      className="g-btn g-play"
-                      aria-label="Play or Pause Gallery"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsPlaying((p) => !p);
-                      }}
-                    >
-                      {isPlaying ? (
-                        <svg viewBox="0 0 24 24" className="pause-icon" style={{ display: 'block' }}>
-                          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                        </svg>
-                      ) : (
-                        <svg viewBox="0 0 24 24" className="play-icon" style={{ display: 'block' }}>
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      )}
-                    </button>
-                    <div className="g-dots-container" id={`gallery-dots-${idx}`}>
-                      {heroImages.map((_, di) => (
-                        <div
-                          key={di}
-                          className={`g-dot${di === galleryIndex ? ' active' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setGalleryIndex(di);
-                            if (isPlaying) startAutoplay();
-                          }}
-                          style={{ cursor: 'pointer' }}
-                        />
-                      ))}
-                    </div>
-                  </div>
                 </div>
               )) : (
                 <div className="gallery-empty-state">
@@ -441,6 +409,44 @@ export default function HomeClient() {
                 </div>
               )}
             </div>
+
+            {/* CONSTANT Minimalist Glass Control Pill — remains stationary at bottom center while only photos rotate */}
+            {heroImages.length > 0 && (
+              <div className="gallery-glass-controls">
+                <button
+                  className="g-btn g-play"
+                  aria-label="Play or Pause Gallery"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsPlaying((p) => !p);
+                  }}
+                >
+                  {isPlaying ? (
+                    <svg viewBox="0 0 24 24" className="pause-icon" style={{ display: 'block' }}>
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" className="play-icon" style={{ display: 'block' }}>
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  )}
+                </button>
+                <div className="g-dots-container" id="gallery-dots">
+                  {heroImages.map((_, di) => (
+                    <div
+                      key={di}
+                      className={`g-dot${di === galleryIndex ? ' active' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setGalleryIndex(di);
+                        if (isPlaying) startAutoplay();
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
