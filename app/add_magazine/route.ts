@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
-import { insertMagazine, getUploadDir } from '@/lib/db';
-import { isAllowedFile, saveFile } from '@/lib/upload';
+import { insertMagazine } from '@/lib/supabase-db';
+import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 
 export async function GET(req: NextRequest) {
   return NextResponse.redirect(new URL('/admin/dashboard', req.url));
@@ -21,11 +21,9 @@ export async function POST(req: NextRequest) {
     const coverImage = formData.get('cover_image') as File | null;
 
     if (title && pdfFile && coverImage && isAllowedFile(pdfFile.name) && isAllowedFile(coverImage.name)) {
-      const pdfDir = getUploadDir('magazines');
-      const coverDir = getUploadDir('covers');
-      const pdfPath = await saveFile(pdfFile, pdfDir, 'uploads/magazines');
-      const coverPath = await saveFile(coverImage, coverDir, 'uploads/covers');
-      insertMagazine(title, pdfPath, coverPath);
+      const pdfPath = await saveFile(pdfFile, '', 'uploads/magazines');
+      const coverPath = await saveFile(coverImage, '', 'uploads/covers');
+      await insertMagazine(title, pdfPath, coverPath);
     }
   } catch (e) {
     console.error('Error in /add_magazine:', e);

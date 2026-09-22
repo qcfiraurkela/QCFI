@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
-import { deleteHeroImage } from '@/lib/db';
+import { deleteHeroImage } from '@/lib/supabase-db';
 
 export async function GET(
   req: NextRequest,
@@ -12,6 +12,6 @@ export async function GET(
     return NextResponse.redirect(new URL('/admin/login', req.url));
   }
   const id = parseInt(params.id, 10);
-  if (!isNaN(id)) deleteHeroImage(id);
+  if (!isNaN(id)) await deleteHeroImage(id);
   return NextResponse.redirect(new URL('/admin/dashboard', req.url));
 }
