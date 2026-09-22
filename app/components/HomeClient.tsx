@@ -385,25 +385,23 @@ export default function HomeClient() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Navigation arrow buttons placed on the left side matching initial template */}
-            <div className="gallery-nav-arrows">
-              <button
-                className="carousel-btn prev-btn gallery-prev-btn-pos"
-                id="gallery-prev"
-                onClick={movePrev}
-                aria-label="Previous Gallery Image"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
-              </button>
-              <button
-                className="carousel-btn next-btn gallery-next-btn-pos"
-                id="gallery-next"
-                onClick={moveNext}
-                aria-label="Next Gallery Image"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
-              </button>
-            </div>
+            {/* Gallery Left & Right Side Arrow Buttons */}
+            <button
+              className="gallery-side-btn gallery-side-prev"
+              id="gallery-prev"
+              onClick={movePrev}
+              aria-label="Previous Gallery Image"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+            </button>
+            <button
+              className="gallery-side-btn gallery-side-next"
+              id="gallery-next"
+              onClick={moveNext}
+              aria-label="Next Gallery Image"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+            </button>
 
             <div className="gallery-track-3d">
               {heroImages.length > 0 ? heroImages.map((img, idx) => (

@@ -648,45 +648,60 @@ header.glass-nav.secret-pulse {
 .g-dot.active { width: 16px; border-radius: 4px; background: var(--accent); }
 .play-icon { display: none; }
 
-/* ── Carousel Prev/Next Buttons (Minimalist Clean Arrows matching initial template) ── */
-.gallery-nav-arrows {
+/* ── Gallery Left / Right Side Arrow Buttons ── */
+.gallery-side-btn {
   position: absolute;
-  left: 4%;
   top: 50%;
   transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
   z-index: 30;
-}
-
-.gallery-nav-arrows .carousel-btn {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  width: 34px;
-  height: 34px;
-  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(8, 23, 56, 0.08);
+  box-shadow: 0 8px 24px rgba(8, 23, 56, 0.08);
+  display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: var(--text-primary);
-  opacity: 0.8;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
-  border-radius: 0;
-  position: static;
-  transform: none;
 }
 
-.gallery-nav-arrows .carousel-btn:hover {
-  opacity: 1;
+.gallery-side-prev {
+  left: 1.5rem;
+}
+
+.gallery-side-next {
+  right: 1.5rem;
+}
+
+.gallery-side-btn:hover {
+  background: var(--bg-primary);
   color: var(--accent);
-  transform: scale(1.2);
-  background: transparent;
-  box-shadow: none;
+  border-color: rgba(29, 69, 237, 0.35);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 12px 30px rgba(29, 69, 237, 0.18);
+}
+
+.gallery-side-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .gallery-side-btn {
+    width: 38px;
+    height: 38px;
+  }
+  .gallery-side-prev {
+    left: 0.5rem;
+  }
+  .gallery-side-next {
+    right: 0.5rem;
+  }
 }
 
 .carousel-btn {
@@ -801,13 +816,14 @@ header.glass-nav.secret-pulse {
 /* ── Process Flow Steps ── */
 .process-scroll-container { display: flex; overflow-x: auto; gap: 0; padding: 2rem 0; -ms-overflow-style: none; position: relative; scrollbar-width: none; }
 .process-scroll-container::-webkit-scrollbar { display: none; }
-.process-scroll-container::before {
-  content: ''; position: absolute; top: 52px; left: 64px; width: 1400px; height: 20px;
+.process-scroll-container::before { display: none; }
+.process-step { min-width: 280px; padding: 0 2rem 2rem 2rem; position: relative; transition: all 0.4s ease; z-index: 1; }
+.process-step:not(:last-child)::before {
+  content: ''; position: absolute; top: 32px; left: 64px; width: 100%; height: 20px;
   background: url('data:image/svg+xml;utf8,<svg width="80" height="20" viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg"><path d="M 15 10 L 25 10 M 55 10 L 65 10" stroke="rgba(29,69,237,0.4)" stroke-width="2" stroke-linecap="round"/><circle cx="15" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="25" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="55" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="65" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><path d="M 25 7 Q 40 0 55 7" fill="none" stroke="rgba(29,69,237,0.2)" stroke-width="1.5" stroke-dasharray="2 2"/><path d="M 25 13 Q 40 20 55 13" fill="none" stroke="rgba(29,69,237,0.2)" stroke-width="1.5" stroke-dasharray="2 2"/></svg>') repeat-x;
   background-size: 80px 20px; transform: translateY(-50%); z-index: 0;
-  animation: chainMove 4s linear infinite;
+  animation: chainMove 4s linear infinite; pointer-events: none;
 }
-.process-step { min-width: 280px; padding: 0 2rem 2rem 2rem; position: relative; transition: all 0.4s ease; z-index: 1; }
 .process-icon-elite { width: 64px; height: 64px; border-radius: 50%; background: var(--bg-primary); border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; position: relative; z-index: 2; transition: all 0.5s var(--ease-out-expo); }
 .process-step:hover .process-icon-elite { border-color: var(--accent); transform: scale(1.1); box-shadow: 0 0 25px rgba(29,69,237,0.12); }
 .process-icon-elite svg { width: 24px; height: 24px; stroke: var(--text-primary); stroke-width: 1.2; transition: stroke 0.5s; }
@@ -2890,7 +2906,8 @@ section[id] {
     overflow-x: visible !important;
     padding: 1rem 0 !important;
   }
-  .process-scroll-container::before {
+  .process-scroll-container::before,
+  .process-step::before {
     display: none !important;
   }
   .process-step {
