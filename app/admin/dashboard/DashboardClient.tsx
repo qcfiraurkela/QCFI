@@ -524,61 +524,74 @@ export default function DashboardClient({
       <div className="admin-hud-main">
         {/* Workspace Top Bar */}
         <header className="workspace-top-bar">
-          <div className="top-bar-left">
-            <button
-              type="button"
-              className="mobile-hamburger"
-              onClick={() => setSidebarOpen(true)}
-              aria-label="Open Sidebar Menu"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
+          <div className="top-bar-main-row">
+            <div className="top-bar-left">
+              <button
+                type="button"
+                className="mobile-hamburger"
+                onClick={() => setSidebarOpen(true)}
+                aria-label="Open Sidebar Menu"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              </button>
 
-            <div className="top-bar-meta">
-              <div className="top-bar-breadcrumb">
-                <span className="crumb-root">ADMIN CONSOLE</span>
-                <span className="crumb-sep">/</span>
-                <span className="crumb-active">{activeModule.title}</span>
+              <div className="top-bar-meta">
+                <div className="top-bar-breadcrumb">
+                  <span className="crumb-root">ADMIN CONSOLE</span>
+                  <span className="crumb-sep">/</span>
+                  <span className="crumb-active">{activeModule.title}</span>
+                </div>
+                <div className="top-bar-heading-row desktop-only-heading">
+                  <h1 className="top-bar-title">{activeModule.title}</h1>
+                  <span className="top-bar-live-tag">LIVE SYNC</span>
+                </div>
+                <p className="top-bar-sub desktop-only-sub">{activeModule.sub}</p>
               </div>
-              <div className="top-bar-heading-row">
-                <h1 className="top-bar-title">{activeModule.title}</h1>
-                <span className="top-bar-live-tag">LIVE SYNC</span>
+            </div>
+
+            <div className="top-bar-right">
+              <div className="top-bar-kpi-chip">
+                <span className="kpi-num">{activeModule.count}</span>
+                <span className="kpi-label">{activeModule.badgeText}</span>
               </div>
-              <p className="top-bar-sub">{activeModule.sub}</p>
+
+              <div className="top-bar-divider" />
+
+              <div className="top-bar-actions">
+                <Link href="/" target="_blank" className="hud-btn-ghost" title="View Public Website">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                  <span className="btn-label-desktop">Live Website</span>
+                  <span className="btn-label-mobile">Live</span>
+                </Link>
+
+                <button type="button" onClick={handleLogout} className="hud-btn-danger" title="Terminate Session">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                  <span className="btn-label-desktop">Terminate</span>
+                  <span className="btn-label-mobile">Exit</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="top-bar-right">
-            <div className="top-bar-kpi-chip">
-              <span className="kpi-num">{activeModule.count}</span>
-              <span className="kpi-label">{activeModule.badgeText}</span>
+          {/* Mobile-dedicated Title & Status Row */}
+          <div className="top-bar-mobile-heading">
+            <div className="top-bar-heading-row">
+              <h1 className="top-bar-title">{activeModule.title}</h1>
+              <span className="top-bar-live-tag">LIVE SYNC</span>
             </div>
-
-            <div className="top-bar-divider" />
-
-            <div className="top-bar-actions">
-              <Link href="/" target="_blank" className="hud-btn-ghost" title="View Public Website">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                <span>Live Website</span>
-              </Link>
-
-              <button type="button" onClick={handleLogout} className="hud-btn-danger" title="Terminate Session">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <polyline points="16 17 21 12 16 7" />
-                  <line x1="21" y1="12" x2="9" y2="12" />
-                </svg>
-                <span>Terminate</span>
-              </button>
-            </div>
+            <p className="top-bar-sub">{activeModule.sub}</p>
           </div>
         </header>
 
