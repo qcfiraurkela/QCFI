@@ -24,7 +24,17 @@ declare global {
   }
 }
 
-export default function MagazineClient({ magazines }: MagazineClientProps) {
+export default function MagazineClient() {
+  const [magazines, setMagazines] = useState<MagazineRow[]>([]);
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch('/api/magazines').then(r => r.json()).then(setMagazines).catch(() => {});
+    };
+    fetchData();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
   const [activeMagPdf, setActiveMagPdf] = useState<string | null>(null);
   const [loadingPdf, setLoadingPdf] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);

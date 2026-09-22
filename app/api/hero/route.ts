@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
+import { revalidatePath } from 'next/cache';
 import { getAllHeroImages, insertHeroImage } from '@/lib/supabase-db';
 import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 
@@ -35,6 +36,7 @@ export async function POST(req: NextRequest) {
 
     const dbPath = await saveFile(file, '', 'uploads/hero_images');
     const id     = await insertHeroImage(dbPath);
+    revalidatePath('/');
     return NextResponse.json({ id, image_path: dbPath }, { status: 201 });
   } catch (e) {
     console.error('[POST /api/hero]', e);

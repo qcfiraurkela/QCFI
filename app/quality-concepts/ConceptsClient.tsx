@@ -3,8 +3,17 @@
 import { useEffect, useState } from 'react';
 import type { ConceptWithImages } from '@/lib/supabase-db';
 
-export default function ConceptsClient({ conceptData }: { conceptData: ConceptWithImages[] }) {
+export default function ConceptsClient() {
+  const [conceptData, setConceptData] = useState<ConceptWithImages[]>([]);
   const [active, setActive] = useState(1);
+
+  useEffect(() => {
+    const fetchData = () =>
+      fetch('/api/concepts').then(r => r.json()).then(setConceptData).catch(() => {});
+    fetchData();
+    const id = setInterval(fetchData, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   /* Handle URL hash on load — e.g. /quality-concepts#concept-3 */
   useEffect(() => {

@@ -8,13 +8,6 @@ import type {
   ConceptWithImages,
 } from '@/lib/supabase-db';
 
-interface Props {
-  heroImages: HeroImageRow[];
-  magazines: MagazineRow[];
-  conceptData: ConceptWithImages[];
-  quizCount: number;
-}
-
 /* ─────────────────────────────────────────────────
    HERO SVG — Industrial Precision Diagram
 ───────────────────────────────────────────────── */
@@ -136,7 +129,23 @@ function IndustrySVG() {
 /* ─────────────────────────────────────────────────
    MAIN CLIENT COMPONENT
 ───────────────────────────────────────────────── */
-export default function HomeClient({ heroImages, magazines, conceptData, quizCount }: Props) {
+export default function HomeClient() {
+  const [heroImages, setHeroImages] = useState<HeroImageRow[]>([]);
+  const [magazines, setMagazines] = useState<MagazineRow[]>([]);
+  const [conceptData, setConceptData] = useState<ConceptWithImages[]>([]);
+  const [quizCount, setQuizCount] = useState(0);
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch('/api/hero').then(r => r.json()).then(setHeroImages).catch(() => {});
+      fetch('/api/magazines').then(r => r.json()).then(setMagazines).catch(() => {});
+      fetch('/api/concepts').then(r => r.json()).then(setConceptData).catch(() => {});
+      fetch('/api/quizzes').then(r => r.json()).then((d) => setQuizCount(d.length)).catch(() => {});
+    };
+    fetchData();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
   /* ── 3D Gallery state ── */
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [isPlaying, setIsPlaying]       = useState(true);
@@ -227,7 +236,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
         backgroundColor: '#FAFCFF', display: 'flex', alignItems: 'center',
         borderBottom: '1px solid var(--border-light)', overflow: 'hidden', paddingTop: '7rem',
       }}>
-        {/* Hero mesh + aura defined in globals.css — .hero::before / .hero::after */}
+      {/* Hero mesh + aura defined in globals.css — .hero::before / .hero::after */}
 
         {/* Corners */}
         <div className="hero-corner corner-tl"><div className="corner-cross" /></div>

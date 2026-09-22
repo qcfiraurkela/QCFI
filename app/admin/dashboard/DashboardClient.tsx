@@ -134,6 +134,7 @@ export default function DashboardClient({
         form.reset();
         setHeroFileLabel('');
         notify('Hero image registered into gallery matrix successfully.');
+        router.refresh();
       } else {
         const err = await res.json();
         notify(err.error || 'Failed to upload hero image.', 'error');
@@ -153,6 +154,7 @@ export default function DashboardClient({
       if (res.ok) {
         setHeroImages((prev) => prev.filter((item) => item.id !== id));
         notify('Hero image deleted.');
+        router.refresh();
       } else {
         notify('Failed to delete image.', 'error');
       }
@@ -179,6 +181,7 @@ export default function DashboardClient({
         setEventMainFileLabel('');
         setEventExtraCount(0);
         notify('New industrial convention/event published successfully.');
+        router.refresh();
       } else {
         const err = await res.json();
         notify(err.error || 'Failed to create event.', 'error');
@@ -198,6 +201,7 @@ export default function DashboardClient({
       if (res.ok) {
         setEvents((prev) => prev.filter((item) => item.id !== id));
         notify('Event deleted.');
+        router.refresh();
       } else {
         notify('Failed to delete event.', 'error');
       }
@@ -223,6 +227,7 @@ export default function DashboardClient({
         form.reset();
         setConceptFilesCount(0);
         notify('Quality Concept methodology synchronized.');
+        router.refresh();
       } else {
         const err = await res.json();
         notify(err.error || 'Failed to add concept.', 'error');
@@ -242,6 +247,7 @@ export default function DashboardClient({
       if (res.ok) {
         setConcepts((prev) => prev.filter((item) => item.id !== id));
         notify('Quality Concept deleted.');
+        router.refresh();
       } else {
         notify('Failed to delete concept.', 'error');
       }
@@ -279,6 +285,7 @@ export default function DashboardClient({
         setQuizzes((prev) => [...prev, newItem]);
         form.reset();
         notify('Assessment question integrated into knowledge base.');
+        router.refresh();
       } else {
         const err = await res.json();
         notify(err.error || 'Failed to add question.', 'error');
@@ -298,6 +305,7 @@ export default function DashboardClient({
       if (res.ok) {
         setQuizzes((prev) => prev.filter((item) => item.id !== id));
         notify('Question deleted.');
+        router.refresh();
       } else {
         notify('Failed to delete question.', 'error');
       }
@@ -324,6 +332,7 @@ export default function DashboardClient({
         setMagPdfLabel('');
         setMagCoverLabel('');
         notify('Interactive 3D Magazine published successfully.');
+        router.refresh();
       } else {
         const err = await res.json();
         notify(err.error || 'Failed to add magazine.', 'error');
@@ -343,6 +352,7 @@ export default function DashboardClient({
       if (res.ok) {
         setMagazines((prev) => prev.filter((item) => item.id !== id));
         notify('Magazine deleted.');
+        router.refresh();
       } else {
         notify('Failed to delete magazine.', 'error');
       }

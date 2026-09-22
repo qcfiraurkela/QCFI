@@ -18,7 +18,6 @@ export default function Navbar() {
 
   const tapCount = useRef(0);
   const lastTapTime = useRef(0);
-  const singleClickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -63,9 +62,7 @@ export default function Navbar() {
       return;
     }
 
-    if (isLogo) {
-      e.preventDefault();
-    }
+    if (isLogo) e.preventDefault();
 
     const now = Date.now();
     if (now - lastTapTime.current < 900) {
@@ -75,12 +72,7 @@ export default function Navbar() {
     }
     lastTapTime.current = now;
 
-    if (singleClickTimer.current) {
-      clearTimeout(singleClickTimer.current);
-      singleClickTimer.current = null;
-    }
-
-    // Secret admin portal triggered! (7 rapid taps)
+    // Secret admin portal triggered!
     if (tapCount.current >= 7) {
       tapCount.current = 0;
       setSecretFeedback(true);
@@ -88,16 +80,13 @@ export default function Navbar() {
       return;
     }
 
-    // If single logo tap and no subsequent taps within 450ms, navigate home
-    if (isLogo && tapCount.current === 1) {
-      singleClickTimer.current = setTimeout(() => {
-        if (pathname !== '/') {
-          router.push('/');
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-        tapCount.current = 0;
-      }, 450);
+    // Single logo click → scroll to top / go home
+    if (isLogo) {
+      if (pathname !== '/') {
+        router.push('/');
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 

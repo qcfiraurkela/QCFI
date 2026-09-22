@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
+import { revalidatePath } from 'next/cache';
 import { getAllQuizzes, insertQuiz } from '@/lib/supabase-db';
 
 export async function GET() {
@@ -46,6 +47,8 @@ export async function POST(req: NextRequest) {
     }
 
     const id = await insertQuiz(question, option_a, option_b, option_c, option_d, correct_option);
+    revalidatePath('/');
+    revalidatePath('/quiz');
     return NextResponse.json(
       { id, question, option_a, option_b, option_c, option_d, correct_option },
       { status: 201 }

@@ -3,7 +3,6 @@
  * Mirrors templates/quiz.html
  */
 import type { Metadata } from 'next';
-import { getAllQuizzes } from '@/lib/supabase-db';
 import QuizClient from './QuizClient';
 
 export const dynamic = 'force-dynamic';
@@ -13,8 +12,6 @@ export const metadata: Metadata = {
   description: 'Evaluate your proficiency in operational methodologies and Quality Concepts.',
 };
 
-export default async function QuizPage() {
-  const quizzes = await getAllQuizzes();
-
-  return <QuizClient quizzes={quizzes} />;
+export default function QuizPage() {
+  return <QuizClient />;
 }

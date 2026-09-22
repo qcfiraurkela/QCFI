@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
+import { revalidatePath } from 'next/cache';
 import {
   getAllConceptsWithImages,
   insertConcept,
@@ -48,6 +49,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    revalidatePath('/');
+    revalidatePath('/quality-concepts');
     return NextResponse.json({ id: conceptId, title, description }, { status: 201 });
   } catch (e) {
     console.error('[POST /api/concepts]', e);

@@ -6,7 +6,7 @@
  * Impeccable alignment with shared Navbar & Footer.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import EliteBackBtn from '../components/EliteBackBtn';
@@ -16,7 +16,17 @@ interface QuizClientProps {
   quizzes: QuizRow[];
 }
 
-export default function QuizClient({ quizzes }: QuizClientProps) {
+export default function QuizClient() {
+  const [quizzes, setQuizzes] = useState<QuizRow[]>([]);
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch('/api/quizzes').then(r => r.json()).then(setQuizzes).catch(() => {});
+    };
+    fetchData();
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [evaluated, setEvaluated] = useState(false);
   const [score, setScore] = useState(0);

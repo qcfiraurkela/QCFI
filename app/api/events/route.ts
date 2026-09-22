@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
+import { revalidatePath } from 'next/cache';
 import {
   getAllEventsWithImages,
   insertEvent,
@@ -55,6 +56,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    revalidatePath('/events');
     const newRow = { id: eventId, name, event_date, title, description, main_image_path: mainPath };
     return NextResponse.json(newRow, { status: 201 });
   } catch (e) {

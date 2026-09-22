@@ -7,7 +7,6 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import EliteBackBtn from '../components/EliteBackBtn';
 import ConceptsClient from './ConceptsClient';
-import { getAllConceptsWithImages } from '@/lib/supabase-db';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,9 +15,7 @@ export const metadata: Metadata = {
   description: 'Explore the fundamental principles of Quality Management, including 5S, Kaizen, Lean, and Six Sigma.',
 };
 
-export default async function QualityConceptsPage() {
-  const conceptData = await getAllConceptsWithImages();
-
+export default function QualityConceptsPage() {
   return (
     <>
       <Navbar />
@@ -39,7 +36,7 @@ export default async function QualityConceptsPage() {
       </section>
 
       {/* Tabs + Panels */}
-      <ConceptsClient conceptData={conceptData} />
+      <ConceptsClient />
 
       {/* Shared Footer */}
       <Footer />

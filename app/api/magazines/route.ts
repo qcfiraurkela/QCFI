@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getIronSession } from 'iron-session';
 import { sessionOptions, type SessionData } from '@/lib/session';
+import { revalidatePath } from 'next/cache';
 import { getAllMagazines, insertMagazine } from '@/lib/supabase-db';
 import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 
@@ -42,6 +43,8 @@ export async function POST(req: NextRequest) {
     const coverPath = await saveFile(coverImage, '', 'uploads/covers');
     const id        = await insertMagazine(title, pdfPath, coverPath);
 
+    revalidatePath('/');
+    revalidatePath('/magazine');
     return NextResponse.json({ id, title, pdf_path: pdfPath, cover_path: coverPath }, { status: 201 });
   } catch (e) {
     console.error('[POST /api/magazines]', e);
