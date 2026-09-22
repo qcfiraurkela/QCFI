@@ -12,6 +12,8 @@ import EliteBackBtn from '../components/EliteBackBtn';
 import ConceptsClient from './ConceptsClient';
 import { getAllConceptsWithImages } from '@/lib/supabase-db';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = { title: 'Quality Concepts — QCFI Raurkela' };
 
 export default async function QualityConceptsPage() {

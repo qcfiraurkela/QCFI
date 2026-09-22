@@ -6,6 +6,8 @@ import type { Metadata } from 'next';
 import { getAllMagazines } from '@/lib/supabase-db';
 import MagazineClient from './MagazineClient';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Magazines | QCFI Rourkela Chapter',
   description: 'Interactive flipbooks documenting industrial excellence and continuous improvement.',

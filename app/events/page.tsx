@@ -1,100 +1,106 @@
 /**
  * /events — Server Component
- * Preserves the original events.html design exactly:
- *  - Blue sticky navbar header
- *  - Page header with title + subtitle
- *  - Event cards: main image (400px), metadata bar, title, description (pre-wrap), gallery grid
- *  - Empty-state fallback
- *  - Dark footer
+ * Consistent premium design matching the QCFI landing page aesthetic.
  */
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
+import EliteBackBtn from '@/app/components/EliteBackBtn';
 import { getAllEventsWithImages } from '@/lib/supabase-db';
 
-export const metadata: Metadata = { title: 'Events — QCFI Raurkela Chapter' };
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Events — QCFI Raurkela Chapter',
+  description: 'Conventions, workshops, and training programs by QCFI Rourkela Chapter.',
+};
 
 export default async function EventsPage() {
   const eventData = await getAllEventsWithImages();
 
   return (
     <>
-      {/* ── Blue sticky navigation (matches original events.html header) ── */}
-      <header className="events-nav">
-        <div className="events-nav-container">
-          <div style={{ fontSize: 24, fontWeight: 'bold', color: 'white' }}>QCFI Rourkela</div>
-          <ul className="events-nav-links">
-            <li><Link href="/" style={{ color: 'white', fontWeight: 500 }}>Home</Link></li>
-            <li><Link href="/quality-concepts" style={{ color: 'white', fontWeight: 500 }}>Quality Concepts</Link></li>
-            <li><span style={{ color: '#ffc107', fontWeight: 500 }}>Events</span></li>
-            <li><Link href="/magazine" style={{ color: 'white', fontWeight: 500 }}>Magazines</Link></li>
-            <li><Link href="/quiz" style={{ color: 'white', fontWeight: 500 }}>Quiz</Link></li>
-          </ul>
-        </div>
-      </header>
+      <Navbar />
+      <EliteBackBtn href="/" label="Back to Hub" />
 
-      {/* ── Main container ── */}
-      <div style={{ width: '90%', maxWidth: 1000, margin: '40px auto' }}>
-
-        {/* Page header */}
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <h1 style={{ fontSize: 36, color: '#004085', marginBottom: 15 }}>Our Latest Events</h1>
-          <p style={{ fontSize: 18, color: '#666' }}>
+      <section className="page-header-sub">
+        <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+          <span className="eyebrow eyebrow-center">[ Programmes / Conclaves ]</span>
+          <h1 className="font-mixed">
+            Our Latest <span className="serif-italic">Events.</span>
+          </h1>
+          <p style={{ fontSize: '1.05rem', color: '#4A5568', maxWidth: 600, margin: '1.5rem auto 0' }}>
             Stay updated with conventions, workshops, and training programs hosted by the QCFI Rourkela Chapter.
           </p>
         </div>
+      </section>
 
-        {/* Event cards */}
+      <main className="container" style={{ padding: '4rem 5%', minHeight: '50vh' }}>
         {eventData.length > 0 ? (
-          eventData.map(({ event, images }) => (
-            <div key={event.id} className="event-card">
-              {/* Main image */}
-              <img
-                src={`/${event.main_image_path}`}
-                alt="Event Main Image"
-                className="main-event-img"
-              />
-
-              <div className="event-content">
-                {/* Metadata bar */}
-                <div className="event-meta">
-                  <span>Event: {event.name}</span>
-                  <span>Date: {event.event_date}</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+            {eventData.map(({ event, images }) => (
+              <article
+                key={event.id}
+                style={{
+                  background: '#fff',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  border: '1px solid var(--border-light)',
+                  boxShadow: '0 4px 24px rgba(5,10,20,0.06)',
+                }}
+              >
+                <div style={{ width: '100%', height: '380px', overflow: 'hidden', background: '#f0f4f8' }}>
+                  <img
+                    src={`/${event.main_image_path}`}
+                    alt={event.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
                 </div>
 
-                {/* Title & description */}
-                <h2 className="event-title">{event.title}</h2>
-                <p className="event-description">{event.description}</p>
+                <div style={{ padding: '2rem 2.5rem' }}>
+                  <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                    <span className="eyebrow" style={{ margin: 0 }}>Date: {event.event_date}</span>
+                    <span className="eyebrow" style={{ margin: 0, color: 'var(--accent)' }}>Event: {event.name}</span>
+                  </div>
 
-                {/* Additional images gallery */}
-                {images.length > 0 && (
-                  <>
-                    <h3 className="gallery-header">Event Gallery</h3>
-                    <div className="gallery-grid">
-                      {images.map(img => (
-                        <img
-                          key={img.id}
-                          src={`/${img.image_path}`}
-                          alt="Event Gallery Image"
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          ))
+                  <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-dark)', marginBottom: '1rem', lineHeight: 1.3 }}>
+                    {event.title}
+                  </h2>
+                  <p style={{ color: '#4A5568', lineHeight: 1.8, whiteSpace: 'pre-wrap', fontSize: '1rem' }}>
+                    {event.description}
+                  </p>
+
+                  {images.length > 0 && (
+                    <>
+                      <h3 style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent)', marginTop: '2rem', marginBottom: '1rem' }}>
+                        Event Gallery
+                      </h3>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.75rem' }}>
+                        {images.map(img => (
+                          <div key={img.id} style={{ borderRadius: '8px', overflow: 'hidden', aspectRatio: '4/3', background: '#f0f4f8' }}>
+                            <img
+                              src={`/${img.image_path}`}
+                              alt="Event gallery"
+                              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
         ) : (
-          <div style={{ textAlign: 'center', padding: 50, background: 'white', borderRadius: 8, border: '1px solid #ddd' }}>
-            <h2 style={{ color: '#004085', marginBottom: 15 }}>No events currently available.</h2>
-            <p style={{ color: '#555' }}>Please check back later or wait for the administrator to add upcoming events.</p>
+          <div style={{ textAlign: 'center', padding: '5rem 2rem', background: 'white', borderRadius: '16px', border: '1px solid var(--border-light)' }}>
+            <h2 style={{ color: 'var(--text-dark)', marginBottom: '0.75rem', fontWeight: 700 }}>No events currently available.</h2>
+            <p style={{ color: '#718096' }}>Please check back later for upcoming events and conclaves.</p>
           </div>
         )}
-      </div>
+      </main>
 
-      {/* Footer */}
-      <footer style={{ background: '#343a40', color: 'white', textAlign: 'center', padding: '20px 0', marginTop: 50 }}>
-        <p>&copy; 2026 QCFI Raurkela Chapter. All Rights Reserved.</p>
-      </footer>
+      <Footer />
     </>
   );
 }

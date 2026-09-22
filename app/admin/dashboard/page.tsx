@@ -17,6 +17,8 @@ import {
 import DashboardClient from './DashboardClient';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Admin Dashboard - QCFI Rourkela',
 };

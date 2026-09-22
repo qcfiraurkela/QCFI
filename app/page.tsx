@@ -14,6 +14,8 @@ import {
   getAllQuizzes,
 } from '@/lib/supabase-db';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'QCFI Raurkela Chapter | Industrial Excellence',
 };
