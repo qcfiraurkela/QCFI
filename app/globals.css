@@ -802,7 +802,7 @@ header.glass-nav.secret-pulse {
 .process-scroll-container { display: flex; overflow-x: auto; gap: 0; padding: 2rem 0; -ms-overflow-style: none; position: relative; scrollbar-width: none; }
 .process-scroll-container::-webkit-scrollbar { display: none; }
 .process-scroll-container::before {
-  content: ''; position: absolute; top: 52px; left: 0; width: max(100%, 1850px); min-width: 1850px; height: 20px;
+  content: ''; position: absolute; top: 52px; left: 64px; width: 1400px; height: 20px;
   background: url('data:image/svg+xml;utf8,<svg width="80" height="20" viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg"><path d="M 15 10 L 25 10 M 55 10 L 65 10" stroke="rgba(29,69,237,0.4)" stroke-width="2" stroke-linecap="round"/><circle cx="15" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="25" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="55" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="65" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><path d="M 25 7 Q 40 0 55 7" fill="none" stroke="rgba(29,69,237,0.2)" stroke-width="1.5" stroke-dasharray="2 2"/><path d="M 25 13 Q 40 20 55 13" fill="none" stroke="rgba(29,69,237,0.2)" stroke-width="1.5" stroke-dasharray="2 2"/></svg>') repeat-x;
   background-size: 80px 20px; transform: translateY(-50%); z-index: 0;
   animation: chainMove 4s linear infinite;
