@@ -326,7 +326,7 @@ export default function HomeClient() {
       {/* ═══════════════════════════════════════════
           03. ABOUT QCFI
       ═══════════════════════════════════════════ */}
-      <section className="section-spacing" style={{ paddingTop: 0 }}>
+      <section className="section-spacing">
         <div className="container split-grid">
           <div className="about-image-wrapper reveal-3d">
             <div className="cinematic-corner top-left" />
@@ -353,7 +353,7 @@ export default function HomeClient() {
       {/* ═══════════════════════════════════════════
           03.5. 3D PHOTO GALLERY
       ═══════════════════════════════════════════ */}
-      <section className="section-spacing" style={{ paddingTop: 0, borderTop: '1px solid var(--border-light)', paddingBottom: '6rem', overflow: 'hidden' }}>
+      <section className="section-spacing" style={{ borderTop: '1px solid var(--border-light)', overflow: 'hidden' }}>
         <div className="container reveal-up">
           <div style={{ marginBottom: '1rem' }}>
             <span className="eyebrow">[ 03 / Visual Archives ]</span>
@@ -613,13 +613,20 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          08. FAQ
+          08. CONCLAVES, EVENTS & FAQ
       ═══════════════════════════════════════════ */}
-      <section className="section-spacing">
+      <section id="events-section" className="section-spacing">
         <div className="container split-grid faq-container">
           <div className="reveal-up">
             <span className="eyebrow">[ 08 / Conclaves & Events ]</span>
-            <h2 className="font-mixed">Frequently Asked <span className="serif-italic">Questions.</span></h2>
+            <h2 className="font-mixed" style={{ marginBottom: '1.25rem' }}>Frequently Asked <span className="serif-italic">Questions.</span></h2>
+            <p className="text-body" style={{ marginBottom: '1.5rem', maxWidth: 460 }}>
+              Stay updated with conventions, regional conclaves, and training programs hosted by the QCFI Raurkela Chapter.
+            </p>
+            <Link href="/events" className="ios-btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}>
+              View All Events &amp; Conclaves
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </Link>
           </div>
           <div className="reveal-up delay-200">
             {faqs.map((faq, i) => (
