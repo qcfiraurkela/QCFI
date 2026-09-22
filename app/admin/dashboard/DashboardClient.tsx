@@ -22,7 +22,7 @@ import type {
   QualityConceptRow,
   QuizRow,
   MagazineRow,
-} from '@/lib/db';
+} from '@/lib/supabase-db';
 
 interface DashboardClientProps {
   initialHeroImages: HeroImageRow[];

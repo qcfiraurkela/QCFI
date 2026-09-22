@@ -3,7 +3,7 @@
  * Mirrors templates/magazine.html
  */
 import type { Metadata } from 'next';
-import { getAllMagazines } from '@/lib/db';
+import { getAllMagazines } from '@/lib/supabase-db';
 import MagazineClient from './MagazineClient';
 
 export const metadata: Metadata = {
@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description: 'Interactive flipbooks documenting industrial excellence and continuous improvement.',
 };
 
-export default function MagazinePage() {
-  const magazines = getAllMagazines();
+export default async function MagazinePage() {
+  const magazines = await getAllMagazines();
 
   return <MagazineClient magazines={magazines} />;
 }

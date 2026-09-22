@@ -9,12 +9,12 @@
  */
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllEventsWithImages } from '@/lib/db';
+import { getAllEventsWithImages } from '@/lib/supabase-db';
 
 export const metadata: Metadata = { title: 'Events — QCFI Raurkela Chapter' };
 
-export default function EventsPage() {
-  const eventData = getAllEventsWithImages();
+export default async function EventsPage() {
+  const eventData = await getAllEventsWithImages();
 
   return (
     <>

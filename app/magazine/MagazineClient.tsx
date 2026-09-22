@@ -15,7 +15,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import EliteBackBtn from '../components/EliteBackBtn';
-import type { MagazineRow } from '@/lib/db';
+import type { MagazineRow } from '@/lib/supabase-db';
 
 interface MagazineClientProps {
   magazines: MagazineRow[];

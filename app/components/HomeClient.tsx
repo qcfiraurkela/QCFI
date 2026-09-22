@@ -6,7 +6,7 @@ import type {
   HeroImageRow,
   MagazineRow,
   ConceptWithImages,
-} from '@/lib/db';
+} from '@/lib/supabase-db';
 
 interface Props {
   heroImages: HeroImageRow[];

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { ConceptWithImages } from '@/lib/db';
+import type { ConceptWithImages } from '@/lib/supabase-db';
 
 export default function ConceptsClient({ conceptData }: { conceptData: ConceptWithImages[] }) {
   const [active, setActive] = useState(1);

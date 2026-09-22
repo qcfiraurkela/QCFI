@@ -15,7 +15,7 @@
 
 import { useState } from 'react';
 import EliteBackBtn from '../components/EliteBackBtn';
-import type { QuizRow } from '@/lib/db';
+import type { QuizRow } from '@/lib/supabase-db';
 
 interface QuizClientProps {
   quizzes: QuizRow[];

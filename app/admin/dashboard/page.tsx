@@ -13,7 +13,7 @@ import {
   getAllConcepts,
   getAllQuizzes,
   getAllMagazines,
-} from '@/lib/db';
+} from '@/lib/supabase-db';
 import DashboardClient from './DashboardClient';
 import type { Metadata } from 'next';
 
@@ -28,11 +28,11 @@ export default async function AdminDashboardPage() {
     redirect('/admin/login');
   }
 
-  const heroImages = getAllHeroImages();
-  const events = getAllEvents();
-  const concepts = getAllConcepts();
-  const quizzes = getAllQuizzes();
-  const magazines = getAllMagazines();
+  const heroImages = await getAllHeroImages();
+  const events = await getAllEvents();
+  const concepts = await getAllConcepts();
+  const quizzes = await getAllQuizzes();
+  const magazines = await getAllMagazines();
 
   return (
     <DashboardClient

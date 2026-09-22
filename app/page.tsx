@@ -12,17 +12,17 @@ import {
   getRecentMagazines,
   getAllConceptsWithImages,
   getAllQuizzes,
-} from '@/lib/db';
+} from '@/lib/supabase-db';
 
 export const metadata: Metadata = {
   title: 'QCFI Raurkela Chapter | Industrial Excellence',
 };
 
-export default function HomePage() {
-  const heroImages  = getAllHeroImages();
-  const magazines   = getRecentMagazines(4);
-  const conceptData = getAllConceptsWithImages();
-  const quizzes     = getAllQuizzes();
+export default async function HomePage() {
+  const heroImages  = await getAllHeroImages();
+  const magazines   = await getRecentMagazines(4);
+  const conceptData = await getAllConceptsWithImages();
+  const quizzes     = await getAllQuizzes();
 
   return (
     <>

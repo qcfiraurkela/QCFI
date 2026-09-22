@@ -10,12 +10,12 @@
 import type { Metadata } from 'next';
 import EliteBackBtn from '../components/EliteBackBtn';
 import ConceptsClient from './ConceptsClient';
-import { getAllConceptsWithImages } from '@/lib/db';
+import { getAllConceptsWithImages } from '@/lib/supabase-db';
 
 export const metadata: Metadata = { title: 'Quality Concepts — QCFI Raurkela' };
 
-export default function QualityConceptsPage() {
-  const conceptData = getAllConceptsWithImages();
+export default async function QualityConceptsPage() {
+  const conceptData = await getAllConceptsWithImages();
 
   return (
     <>
