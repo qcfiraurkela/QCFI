@@ -9,7 +9,10 @@ export default function ConceptsClient() {
 
   useEffect(() => {
     const fetchData = () =>
-      fetch('/api/concepts').then(r => r.json()).then(setConceptData).catch(() => {});
+      fetch('/api/concepts')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setConceptData(data); })
+        .catch(() => {});
     fetchData();
     const id = setInterval(fetchData, 25000);
     return () => clearInterval(id);

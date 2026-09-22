@@ -4,6 +4,8 @@ import { sessionOptions, type SessionData } from '@/lib/session';
 import { insertConcept, insertConceptImage } from '@/lib/supabase-db';
 import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   return NextResponse.redirect(new URL('/admin/dashboard', req.url));
 }

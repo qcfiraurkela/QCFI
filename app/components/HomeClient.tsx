@@ -137,10 +137,22 @@ export default function HomeClient() {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('/api/hero').then(r => r.json()).then(setHeroImages).catch(() => {});
-      fetch('/api/magazines').then(r => r.json()).then(setMagazines).catch(() => {});
-      fetch('/api/concepts').then(r => r.json()).then(setConceptData).catch(() => {});
-      fetch('/api/quizzes').then(r => r.json()).then((d) => setQuizCount(d.length)).catch(() => {});
+      fetch('/api/hero')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setHeroImages(data); })
+        .catch(() => {});
+      fetch('/api/magazines')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setMagazines(data); })
+        .catch(() => {});
+      fetch('/api/concepts')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setConceptData(data); })
+        .catch(() => {});
+      fetch('/api/quizzes')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setQuizCount(data.length); })
+        .catch(() => {});
     };
     fetchData();
     const interval = setInterval(fetchData, 25000);
@@ -744,7 +756,12 @@ export default function HomeClient() {
 
             <p className="text-body" style={{ marginBottom: '1rem' }}><strong>Address:</strong> QCFI Raurkela Chapter, Sector-19, Raurkela, Odisha – 769 003, India</p>
             <p className="text-body" style={{ marginBottom: '1rem' }}><strong>Contact No:</strong> +91 661 251 0476</p>
-            <p className="text-body"><strong>Email ID:</strong> qcfiRourkela@gmail.com</p>
+            <p className="text-body">
+              <strong>Email ID:</strong>{' '}
+              <a href="mailto:qcfiRourkela@gmail.com" style={{ color: 'var(--accent)', fontWeight: 600, textDecoration: 'underline' }}>
+                qcfiRourkela@gmail.com
+              </a>
+            </p>
           </div>
           <div className="reveal-up delay-200">
             <ContactForm />
@@ -755,11 +772,24 @@ export default function HomeClient() {
   );
 }
 
-/* ── Contact form — needs its own submit handler, client sub-component ── */
+/* ── Contact form — launches mail client with pre-filled message ── */
 function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = String(formData.get('fullName') || '');
+    const email = String(formData.get('email') || '');
+    const phone = String(formData.get('phone') || '');
+    const org = String(formData.get('organization') || '');
+    const message = String(formData.get('message') || '');
+
+    const subject = encodeURIComponent(`Inquiry from ${name || 'Website Visitor'}${org ? ` (${org})` : ''}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nOrganization: ${org}\n\nMessage:\n${message}`
+    );
+
+    window.location.href = `mailto:qcfiRourkela@gmail.com?subject=${subject}&body=${body}`;
     setSubmitted(true);
   };
   return submitted ? (

@@ -11,9 +11,12 @@ export default function EventsClient() {
 
   useEffect(() => {
     const fetch_ = () =>
-      fetch('/api/events').then(r => r.json()).then(setEventData).catch(() => {});
+      fetch('/api/events')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setEventData(data); })
+        .catch(() => {});
     fetch_();
-    const id = setInterval(fetch_, 5000);
+    const id = setInterval(fetch_, 25000);
     return () => clearInterval(id);
   }, []);
 

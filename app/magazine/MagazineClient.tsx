@@ -29,7 +29,10 @@ export default function MagazineClient() {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('/api/magazines').then(r => r.json()).then(setMagazines).catch(() => {});
+      fetch('/api/magazines')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setMagazines(data); })
+        .catch(() => {});
     };
     fetchData();
     const interval = setInterval(fetchData, 25000);

@@ -802,7 +802,7 @@ header.glass-nav.secret-pulse {
 .process-scroll-container { display: flex; overflow-x: auto; gap: 0; padding: 2rem 0; -ms-overflow-style: none; position: relative; scrollbar-width: none; }
 .process-scroll-container::-webkit-scrollbar { display: none; }
 .process-scroll-container::before {
-  content: ''; position: absolute; top: 52px; left: 0; width: 100%; height: 20px;
+  content: ''; position: absolute; top: 52px; left: 0; width: max(100%, 1850px); min-width: 1850px; height: 20px;
   background: url('data:image/svg+xml;utf8,<svg width="80" height="20" viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg"><path d="M 15 10 L 25 10 M 55 10 L 65 10" stroke="rgba(29,69,237,0.4)" stroke-width="2" stroke-linecap="round"/><circle cx="15" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="25" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="55" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><circle cx="65" cy="10" r="3" fill="none" stroke="%231D45ED" stroke-width="1.5"/><path d="M 25 7 Q 40 0 55 7" fill="none" stroke="rgba(29,69,237,0.2)" stroke-width="1.5" stroke-dasharray="2 2"/><path d="M 25 13 Q 40 20 55 13" fill="none" stroke="rgba(29,69,237,0.2)" stroke-width="1.5" stroke-dasharray="2 2"/></svg>') repeat-x;
   background-size: 80px 20px; transform: translateY(-50%); z-index: 0;
   animation: chainMove 4s linear infinite;
@@ -2743,42 +2743,33 @@ header.glass-nav.secret-pulse {
     font-size: clamp(1.9rem, 9.5vw, 2.6rem) !important;
   }
 }
-/* Hero CTA buttons: perfectly balanced & equal size on mobile */
-@media (max-width: 600px) {
+/* Hero CTA buttons: stacked vertically on mobile & tablet (matching 1st image exactly) */
+@media (max-width: 768px) {
   .hero-cta-group {
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.75rem !important;
+    gap: 0.85rem !important;
     width: 100% !important;
-    max-width: 360px !important;
-    margin: 0 auto 1.5rem !important;
+    max-width: 320px !important;
+    margin: 0 auto 1.75rem !important;
   }
   .hero-cta-group .ios-btn-primary,
   .hero-cta-group .ios-btn-secondary {
-    flex: 1 1 0 !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    padding: 0 0.85rem !important;
-    font-size: 0.88rem !important;
-    gap: 0.4rem !important;
-    white-space: nowrap !important;
+    width: 100% !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    display: flex !important;
+    align-items: center !important;
     justify-content: center !important;
+    padding: 0 1.5rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
     text-align: center !important;
     box-sizing: border-box !important;
-  }
-}
-@media (max-width: 340px) {
-  .hero-cta-group {
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 260px !important;
-  }
-  .hero-cta-group .ios-btn-primary,
-  .hero-cta-group .ios-btn-secondary {
-    width: 100% !important;
-    flex: none !important;
+    border-radius: 40px !important;
   }
 }
 /* Hero corner accents: hide on mobile to avoid clutter */

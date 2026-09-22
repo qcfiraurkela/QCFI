@@ -21,10 +21,13 @@ export default function QuizClient() {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('/api/quizzes').then(r => r.json()).then(setQuizzes).catch(() => {});
+      fetch('/api/quizzes')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { if (Array.isArray(data)) setQuizzes(data); })
+        .catch(() => {});
     };
     fetchData();
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(fetchData, 25000);
     return () => clearInterval(interval);
   }, []);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
