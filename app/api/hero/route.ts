@@ -12,7 +12,11 @@ import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 export async function GET() {
   try {
     const images = await getAllHeroImages();
-    return NextResponse.json(images);
+    return NextResponse.json(images, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+      },
+    });
   } catch (e) {
     console.error('[GET /api/hero]', e);
     return NextResponse.json({ error: 'Failed to fetch hero images' }, { status: 500 });

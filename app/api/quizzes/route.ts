@@ -11,7 +11,11 @@ import { getAllQuizzes, insertQuiz } from '@/lib/supabase-db';
 export async function GET() {
   try {
     const quizzes = await getAllQuizzes();
-    return NextResponse.json(quizzes);
+    return NextResponse.json(quizzes, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+      },
+    });
   } catch (e) {
     console.error('[GET /api/quizzes]', e);
     return NextResponse.json({ error: 'Failed to fetch quizzes' }, { status: 500 });

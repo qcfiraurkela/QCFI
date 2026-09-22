@@ -16,7 +16,11 @@ import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 export async function GET() {
   try {
     const data = await getAllConceptsWithImages();
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+      },
+    });
   } catch (e) {
     console.error('[GET /api/concepts]', e);
     return NextResponse.json({ error: 'Failed to fetch concepts' }, { status: 500 });

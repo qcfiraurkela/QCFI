@@ -12,7 +12,11 @@ import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 export async function GET() {
   try {
     const magazines = await getAllMagazines();
-    return NextResponse.json(magazines);
+    return NextResponse.json(magazines, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+      },
+    });
   } catch (e) {
     console.error('[GET /api/magazines]', e);
     return NextResponse.json({ error: 'Failed to fetch magazines' }, { status: 500 });

@@ -143,7 +143,7 @@ export default function HomeClient() {
       fetch('/api/quizzes').then(r => r.json()).then((d) => setQuizCount(d.length)).catch(() => {});
     };
     fetchData();
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(fetchData, 25000);
     return () => clearInterval(interval);
   }, []);
   /* ── 3D Gallery state ── */
@@ -269,12 +269,14 @@ export default function HomeClient() {
               Driving deep core industrial methodologies and fostering total quality management for
               optimal operational output across the region.
             </p>
-            <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <div className="hero-cta-group">
               <a href="#about" className="ios-btn-primary">
-                About Us
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                <span>About Us</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 12h14M12 5l7 7-7 7" /></svg>
               </a>
-              <a href="#contact" className="ios-btn-secondary">Contact Us</a>
+              <a href="#contact" className="ios-btn-secondary">
+                <span>Contact Us</span>
+              </a>
             </div>
           </div>
 

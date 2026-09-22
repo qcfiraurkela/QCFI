@@ -11,7 +11,7 @@ export default function ConceptsClient() {
     const fetchData = () =>
       fetch('/api/concepts').then(r => r.json()).then(setConceptData).catch(() => {});
     fetchData();
-    const id = setInterval(fetchData, 5000);
+    const id = setInterval(fetchData, 25000);
     return () => clearInterval(id);
   }, []);
 

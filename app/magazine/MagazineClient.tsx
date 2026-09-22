@@ -32,7 +32,7 @@ export default function MagazineClient() {
       fetch('/api/magazines').then(r => r.json()).then(setMagazines).catch(() => {});
     };
     fetchData();
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(fetchData, 25000);
     return () => clearInterval(interval);
   }, []);
   const [activeMagPdf, setActiveMagPdf] = useState<string | null>(null);
