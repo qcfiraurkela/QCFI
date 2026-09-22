@@ -84,10 +84,10 @@ function IndustrySVG() {
         <circle cx="400" cy="400" r="116" fill="url(#machineFace)" stroke="#1D45ED" strokeWidth="2" />
         <g className="gear-rotate">
           <path d="M0-104 L12-104 L17-118 L31-113 L34-99 L52-94 L61-106 L73-98 L67-82 L83-72 L98-78 L105-65 L92-52 L101-34 L116-30 L114-15 L99-11 L104 8 L118 13 L113 28 L98 31 L93 50 L106 60 L98 73 L82 67 L72 83 L78 98 L65 105 L52 92 L34 101 L30 116 L15 114 L11 99 L-8 104 L-13 118 L-28 113 L-31 98 L-50 93 L-60 106 L-73 98 L-67 82 L-83 72 L-98 78 L-105 65 L-92 52 L-101 34 L-116 30 L-114 15 L-99 11 L-104-8 L-118-13 L-113-28 L-98-31 L-93-50 L-106-60 L-98-73 L-82-67 L-72-83 L-78-98 L-65-105 L-52-92 L-34-101 L-30-116 L-15-114 L-11-99 Z"
-            fill="#081738" fillOpacity="0.08" stroke="#081738" strokeOpacity="0.18" strokeWidth="1.5" transform="translate(400 400)" />
-          <circle cx="400" cy="400" r="82" fill="#FFFFFF" fillOpacity="0.84" stroke="#1D45ED" strokeOpacity="0.35" strokeWidth="2" />
-          <circle cx="400" cy="400" r="67" fill="none" stroke="#081738" strokeOpacity="0.16" strokeWidth="2" />
-          <circle cx="400" cy="400" r="50" fill="none" stroke="#1D45ED" strokeOpacity="0.24" strokeWidth="1.5" strokeDasharray="3 7" />
+            fill="#081738" fillOpacity="0.08" stroke="#081738" strokeOpacity="0.18" strokeWidth="1.5" />
+          <circle r="82" fill="#FFFFFF" fillOpacity="0.84" stroke="#1D45ED" strokeOpacity="0.35" strokeWidth="2" />
+          <circle r="67" fill="none" stroke="#081738" strokeOpacity="0.16" strokeWidth="2" />
+          <circle r="50" fill="none" stroke="#1D45ED" strokeOpacity="0.24" strokeWidth="1.5" strokeDasharray="3 7" />
         </g>
         <g transform="translate(400 400)">
           <circle r="18" fill="#FFFFFF" stroke="#1D45ED" strokeWidth="1.5" strokeOpacity="0.2">
@@ -351,13 +351,13 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          03.5. 3D PHOTO GALLERY
+          03.5. OUR PHOTO GALLERY (Elite 3D Cover Flow)
       ═══════════════════════════════════════════ */}
-      <section className="section-spacing" style={{ borderTop: '1px solid var(--border-light)', overflow: 'hidden' }}>
+      <section className="gallery-section-wrapper section-spacing pt-0-border-0">
         <div className="container reveal-up">
-          <div style={{ marginBottom: '1rem' }}>
-            <span className="eyebrow">[ 03 / Visual Archives ]</span>
-            <h2 className="font-mixed" style={{ lineHeight: 1.1 }}>
+          <div className="mb-1rem">
+            <span className="eyebrow">[ 02.1 / Visuals ]</span>
+            <h2 className="font-mixed lh-1-1">
               Our <span className="serif-italic">Photo Gallery.</span>
             </h2>
           </div>
@@ -371,10 +371,20 @@ export default function HomeClient() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            <button className="carousel-btn" style={{ left: '5%', zIndex: 30 }} onClick={movePrev} aria-label="Previous">
+            <button
+              className="carousel-btn prev-btn gallery-prev-btn-pos"
+              id="gallery-prev"
+              onClick={movePrev}
+              aria-label="Previous Gallery Image"
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
             </button>
-            <button className="carousel-btn" style={{ right: '5%', zIndex: 30 }} onClick={moveNext} aria-label="Next">
+            <button
+              className="carousel-btn next-btn gallery-next-btn-pos"
+              id="gallery-next"
+              onClick={moveNext}
+              aria-label="Next Gallery Image"
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
             </button>
 
@@ -383,34 +393,51 @@ export default function HomeClient() {
                 <div
                   key={img.id}
                   className={getCardClass(idx)}
+                  data-index={idx}
                   onClick={() => { if (idx !== galleryIndex) { setGalleryIndex(idx); if (isPlaying) startAutoplay(); } }}
                 >
                   <div className="gallery-img-wrapper">
-                    <img src={`/${img.image_path}`} alt={`Gallery photo ${idx + 1}`} loading={idx === 0 ? 'eager' : 'lazy'} />
+                    <img src={`/${img.image_path}`} alt="Gallery Image" loading={idx === 0 ? 'eager' : 'lazy'} />
                   </div>
-                  {/* Glass Controls (visible only on active) */}
+                  {/* Minimalist Glass Control Pill */}
                   <div className="gallery-glass-controls">
-                    <button className="g-btn" onClick={movePrev} aria-label="Prev">
-                      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" /></svg>
+                    <button
+                      className="g-btn g-play"
+                      aria-label="Play or Pause Gallery"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsPlaying((p) => !p);
+                      }}
+                    >
+                      {isPlaying ? (
+                        <svg viewBox="0 0 24 24" className="pause-icon" style={{ display: 'block' }}>
+                          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" className="play-icon" style={{ display: 'block' }}>
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      )}
                     </button>
-                    <button className="g-btn g-play" aria-label="Toggle play" onClick={e => { e.stopPropagation(); setIsPlaying(p => !p); }}>
-                      {isPlaying
-                        ? <svg viewBox="0 0 24 24" className="pause-icon"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
-                        : <svg viewBox="0 0 24 24" className="play-icon"><path d="M8 5v14l11-7z" /></svg>}
-                    </button>
-                    <div className="g-dots-container">
+                    <div className="g-dots-container" id={`gallery-dots-${idx}`}>
                       {heroImages.map((_, di) => (
-                        <div key={di} className={`g-dot${di === galleryIndex ? ' active' : ''}`} />
+                        <div
+                          key={di}
+                          className={`g-dot${di === galleryIndex ? ' active' : ''}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setGalleryIndex(di);
+                            if (isPlaying) startAutoplay();
+                          }}
+                          style={{ cursor: 'pointer' }}
+                        />
                       ))}
                     </div>
-                    <button className="g-btn" onClick={moveNext} aria-label="Next">
-                      <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" /></svg>
-                    </button>
                   </div>
                 </div>
               )) : (
-                <div style={{ width: '100%', height: '100%', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4A5568', borderRadius: 24, border: '1px solid var(--border-light)' }}>
-                  No images in gallery repository.
+                <div className="gallery-empty-state">
+                  No images found in the gallery repository.
                 </div>
               )}
             </div>

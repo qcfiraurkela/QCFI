@@ -502,7 +502,14 @@ header.glass-nav.secret-pulse {
   animation: scrollDropLight 1.5s infinite var(--ease-in-out);
 }
 
-/* ── 3D Gallery ── */
+/* ── 03.5 OUR PHOTO GALLERY (Elite 3D Cover Flow) ── */
+.gallery-section-wrapper {
+  background-color: var(--bg-primary);
+  overflow: hidden;
+  border-top: 1px solid var(--border-light);
+  padding-bottom: 6rem;
+}
+
 .gallery-3d-container {
   position: relative;
   width: 100%;
@@ -523,6 +530,7 @@ header.glass-nav.secret-pulse {
   background: radial-gradient(circle, rgba(29, 69, 237, 0.08) 0%, transparent 70%);
   filter: blur(40px);
   z-index: -1;
+  pointer-events: none;
 }
 .gallery-track-3d {
   width: 100%; height: 100%;
@@ -558,6 +566,7 @@ header.glass-nav.secret-pulse {
   position: relative;
   background: #fff;
   padding: 12px;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -565,13 +574,14 @@ header.glass-nav.secret-pulse {
 .gallery-img-wrapper img {
   width: 100%; height: 100%;
   object-fit: cover;
+  padding: 0;
   border-radius: 12px;
   filter: saturate(0.95);
   transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease;
 }
 .gallery-card-3d.active:hover .gallery-img-wrapper img { transform: scale(1.03); filter: saturate(1.1); }
 
-/* Glass Controls Pill */
+/* Minimalist Glass Control Pill */
 .gallery-glass-controls {
   position: absolute;
   bottom: -40px; left: 50%;
@@ -590,11 +600,18 @@ header.glass-nav.secret-pulse {
   justify-content: center;
   gap: 1.5rem;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 20;
   pointer-events: none;
 }
-.gallery-card-3d.active .gallery-glass-controls { opacity: 1; pointer-events: auto; }
+.gallery-card-3d.active .gallery-glass-controls {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateZ(30px) translateY(0);
+}
+.gallery-card-3d:not(.active) .gallery-glass-controls {
+  transform: translateX(-50%) translateZ(0) translateY(-15px);
+}
 .g-btn { background: none; border: none; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; width: 32px; height: 32px; border-radius: 50%; }
 .g-btn:hover { background: rgba(29,69,237,0.1); color: var(--accent); }
 .g-btn svg { width: 16px; height: 16px; fill: currentColor; }
@@ -621,6 +638,12 @@ header.glass-nav.secret-pulse {
   color: var(--text-primary);
 }
 .carousel-btn:hover { background: var(--accent); color: white; box-shadow: 0 12px 30px rgba(29,69,237,0.25); }
+.gallery-prev-btn-pos { left: 5%; z-index: 30; }
+.gallery-next-btn-pos { right: 5%; z-index: 30; }
+.gallery-empty-state { width: 100%; height: 100%; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; color: #4A5568; border-radius: 24px; border: 1px solid var(--border-light); }
+.pt-0-border-0 { padding-top: 0; border-top: none; }
+.lh-1-1 { line-height: 1.1; }
+.mb-1rem { margin-bottom: 1rem; }
 
 /* ── About Image Wrappers ── */
 .about-image-wrapper { position: relative; padding: 2rem; max-width: 420px; margin: 0 auto; width: 100%; display: block; }
@@ -1009,7 +1032,7 @@ header.glass-nav.secret-pulse {
 .magazine-card:hover .btn-read { background: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(29,69,237,0.25); }
 
 /* ── Quality Concepts page ── */
-.concept-tabs-wrapper { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+.concept-tabs-wrapper { position: sticky; top: 5rem; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
 .tabs-scroll-area { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; align-items: center; padding: 1.25rem 5%; max-width: 1100px; margin: 0 auto; }
 .tabs-scroll-area::-webkit-scrollbar { display: none; }
 .tab-btn { white-space: nowrap; padding: 0.6rem 1.25rem; margin: 5px 0; border-radius: 40px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4A5568; background: rgba(8,23,56,0.04); border: none; transition: all 0.4s var(--ease-out-expo); display: flex; align-items: center; gap: 8px; cursor: pointer; }
@@ -1453,6 +1476,16 @@ header.glass-nav.secret-pulse {
   font-weight: 700;
   color: #718096;
   text-transform: uppercase;
+}
+
+@media (max-width: 480px) {
+  .admin-terminal-card {
+    padding: 32px 20px 24px;
+    border-radius: 20px;
+  }
+  .admin-terminal-title {
+    font-size: 1.6rem;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -2954,7 +2987,7 @@ section[id] {
 @media (max-width: 768px) {
   .concept-tabs-wrapper {
     position: sticky;
-    top: 0;
+    top: 4.2rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }

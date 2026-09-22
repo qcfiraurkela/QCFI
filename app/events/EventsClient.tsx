@@ -65,7 +65,7 @@ export default function EventsClient() {
                 <h3 style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: 'var(--accent)', marginBottom: '1.25rem' }}>
                   Event Gallery
                 </h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.85rem' }}>
                   {images.map(img => (
                     <div key={img.id} style={{ borderRadius: '10px', overflow: 'hidden', aspectRatio: '4/3', background: 'var(--bg-secondary)', boxShadow: '0 4px 15px rgba(0,0,0,0.04)' }}>
                       <img
