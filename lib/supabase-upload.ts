@@ -2,14 +2,18 @@
  * lib/supabase-upload.ts
  * Uploads files to the Supabase 'media' Storage bucket.
  * Returns the relative web path (e.g. "uploads/hero_images/file.jpg")
- * that is consistent with the /uploads/* rewrite in next.config.mjs.
+ * consistent with the /uploads/* rewrite in next.config.mjs.
  */
 
+import path from 'path';
 import { supabase } from './supabase';
 
 const ALLOWED_EXTENSIONS = new Set([
   'png', 'jpg', 'jpeg', 'gif', 'webp', 'pdf',
 ]);
+
+// 10 MB file size limit
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 export function isAllowedFile(filename: string): boolean {
   const ext = filename.split('.').pop()?.toLowerCase() ?? '';
@@ -17,30 +21,36 @@ export function isAllowedFile(filename: string): boolean {
 }
 
 /**
- * Sanitise a filename — replaces spaces and unsafe chars with underscores.
+ * Sanitise filename — removes directory traversal and unsafe characters.
  */
 export function secureName(filename: string): string {
-  return filename
-    .replace(/[^\w.\-]/g, '_')   // keep word chars, dots, hyphens
-    .replace(/^\.+/, '')          // strip leading dots
-    .replace(/_{2,}/g, '_');      // collapse repeated underscores
+  const basename = path.basename(filename);
+  return basename
+    .replace(/[^\w.\-]/g, '_')
+    .replace(/^\.+/, '')
+    .replace(/_{2,}/g, '_')
+    .slice(0, 200);
 }
 
 /**
  * Upload a File blob to the Supabase 'media' bucket.
- * Returns the relative web path suitable for storing in the DB,
- * e.g. "uploads/hero_images/HERO_1.jpeg"
- *
- * The next.config.mjs rewrite maps /uploads/* → Supabase CDN, so
- * these paths work identically in both local dev and production.
+ * Returns the relative web path for storing in the DB.
  */
 export async function saveFile(
   file: File,
-  _absoluteDir: string,  // kept for API compat – not used
-  subPath: string        // e.g. "uploads/hero_images"
+  _absoluteDir: string,  // kept for API compat — not used
+  subPath: string
 ): Promise<string> {
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error(`File exceeds maximum size of ${MAX_FILE_SIZE / 1024 / 1024}MB`);
+  }
+
   const safeName = secureName(file.name);
-  const storagePath = `${subPath}/${safeName}`;  // e.g. uploads/hero_images/file.jpg
+  if (!safeName) throw new Error('Invalid filename after sanitisation');
+
+  // Add timestamp prefix to prevent filename collisions
+  const uniqueName = `${Date.now()}_${safeName}`;
+  const storagePath = `${subPath}/${uniqueName}`;
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
@@ -48,25 +58,26 @@ export async function saveFile(
     .from('media')
     .upload(storagePath, buffer, {
       contentType: file.type || 'application/octet-stream',
-      upsert: true, // overwrite if the same filename is re-uploaded
+      upsert: true,
     });
 
   if (error) throw new Error(`Storage upload failed: ${error.message}`);
 
-  // Return the relative path that matches the /uploads/* proxy rewrite
   return storagePath;
 }
 
 /**
  * Delete a file from Supabase Storage by its relative web path.
- * e.g. deleteStorageFile("uploads/hero_images/foo.jpg")
  */
 export async function deleteStorageFile(relativePath: string): Promise<void> {
   const { error } = await supabase.storage.from('media').remove([relativePath]);
-  if (error) console.error('Storage delete warning:', error.message); // non-fatal
+  if (error) {
+    // Non-fatal — log but don't throw (file may already be gone)
+    console.error('Storage delete warning:', error.message);
+  }
 }
 
-// Stub for API compat (not needed with Supabase)
+// Stub for API compat
 export function getUploadDir(_subfolder: string): string {
   return '';
 }

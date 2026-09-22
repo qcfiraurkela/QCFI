@@ -93,9 +93,9 @@ export default function QuizClient({ quizzes }: QuizClientProps) {
                         value="A"
                         checked={userAnswer === 'A'}
                         onChange={() => {}}
-                        style={{ display: 'none' }}
+                        className="sr-only"
                       />
-                      <span className="option-radio-custom" />
+                      <span className="custom-radio" />
                       <span>{q.option_a}</span>
                     </label>
 
@@ -106,9 +106,9 @@ export default function QuizClient({ quizzes }: QuizClientProps) {
                         value="B"
                         checked={userAnswer === 'B'}
                         onChange={() => {}}
-                        style={{ display: 'none' }}
+                        className="sr-only"
                       />
-                      <span className="option-radio-custom" />
+                      <span className="custom-radio" />
                       <span>{q.option_b}</span>
                     </label>
 
@@ -119,9 +119,9 @@ export default function QuizClient({ quizzes }: QuizClientProps) {
                         value="C"
                         checked={userAnswer === 'C'}
                         onChange={() => {}}
-                        style={{ display: 'none' }}
+                        className="sr-only"
                       />
-                      <span className="option-radio-custom" />
+                      <span className="custom-radio" />
                       <span>{q.option_c}</span>
                     </label>
 
@@ -132,9 +132,9 @@ export default function QuizClient({ quizzes }: QuizClientProps) {
                         value="D"
                         checked={userAnswer === 'D'}
                         onChange={() => {}}
-                        style={{ display: 'none' }}
+                        className="sr-only"
                       />
-                      <span className="option-radio-custom" />
+                      <span className="custom-radio" />
                       <span>{q.option_d}</span>
                     </label>
                   </div>

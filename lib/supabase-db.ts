@@ -138,13 +138,29 @@ export async function getEventImages(eventId: number): Promise<EventImageRow[]> 
 
 export async function getAllEventsWithImages(): Promise<EventWithImages[]> {
   const events = await getAllEvents();
-  const result: EventWithImages[] = await Promise.all(
-    events.map(async (event) => ({
-      event,
-      images: await getEventImages(event.id),
-    }))
-  );
-  return result;
+  if (events.length === 0) return [];
+
+  // Single query for ALL event images — eliminates N+1
+  const ids = events.map((e) => e.id);
+  const { data: allImages, error } = await supabase
+    .from('event_images')
+    .select('*')
+    .in('event_id', ids);
+
+  const images = throwOnError(allImages, error) as EventImageRow[];
+
+  // Group images by event_id in memory
+  const imageMap = new Map<number, EventImageRow[]>();
+  for (const img of images) {
+    const list = imageMap.get(img.event_id) ?? [];
+    list.push(img);
+    imageMap.set(img.event_id, list);
+  }
+
+  return events.map((event) => ({
+    event,
+    images: imageMap.get(event.id) ?? [],
+  }));
 }
 
 export async function insertEvent(
@@ -192,13 +208,29 @@ export async function getConceptImages(conceptId: number): Promise<ConceptImageR
 
 export async function getAllConceptsWithImages(): Promise<ConceptWithImages[]> {
   const concepts = await getAllConcepts();
-  const result: ConceptWithImages[] = await Promise.all(
-    concepts.map(async (concept) => ({
-      concept,
-      images: await getConceptImages(concept.id),
-    }))
-  );
-  return result;
+  if (concepts.length === 0) return [];
+
+  // Single query for ALL concept images — eliminates N+1
+  const ids = concepts.map((c) => c.id);
+  const { data: allImages, error } = await supabase
+    .from('concept_images')
+    .select('*')
+    .in('concept_id', ids);
+
+  const images = throwOnError(allImages, error) as ConceptImageRow[];
+
+  // Group by concept_id
+  const imageMap = new Map<number, ConceptImageRow[]>();
+  for (const img of images) {
+    const list = imageMap.get(img.concept_id) ?? [];
+    list.push(img);
+    imageMap.set(img.concept_id, list);
+  }
+
+  return concepts.map((concept) => ({
+    concept,
+    images: imageMap.get(concept.id) ?? [],
+  }));
 }
 
 export async function insertConcept(title: string, description: string): Promise<number> {

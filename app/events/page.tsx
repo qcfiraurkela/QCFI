@@ -50,7 +50,7 @@ export default async function EventsPage() {
                   transition: 'transform 0.4s ease, box-shadow 0.4s ease',
                 }}
               >
-                <div style={{ width: '100%', height: '400px', overflow: 'hidden', background: 'var(--bg-secondary)' }}>
+                <div style={{ width: '100%', height: 'clamp(200px, 40vw, 400px)', overflow: 'hidden', background: 'var(--bg-secondary)' }}>
                   <img
                     src={`/${event.main_image_path}`}
                     alt={event.title}
@@ -58,7 +58,7 @@ export default async function EventsPage() {
                   />
                 </div>
 
-                <div style={{ padding: '2.5rem 3rem' }}>
+                <div style={{ padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1.25rem, 4vw, 3rem)' }}>
                   <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>
                     <span className="eyebrow" style={{ margin: 0 }}>Date: {event.event_date}</span>
                     <span className="eyebrow" style={{ margin: 0, color: 'var(--accent)' }}>Event: {event.name}</span>
@@ -81,7 +81,8 @@ export default async function EventsPage() {
                           <div key={img.id} style={{ borderRadius: '10px', overflow: 'hidden', aspectRatio: '4/3', background: 'var(--bg-secondary)', boxShadow: '0 4px 15px rgba(0,0,0,0.04)' }}>
                             <img
                               src={`/${img.image_path}`}
-                              alt="Event gallery"
+                              alt={`${event.title} gallery`}
+                              loading="lazy"
                               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                             />
                           </div>

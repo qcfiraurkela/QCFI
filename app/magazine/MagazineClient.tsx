@@ -34,6 +34,9 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
   const readerSectionRef = useRef<HTMLElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const pageFlipInstanceRef = useRef<any>(null);
+  // Keep magazines in a ref so the URL-param effect always sees the latest list
+  const magazinesRef = useRef(magazines);
+  useEffect(() => { magazinesRef.current = magazines; }, [magazines]);
 
   const checkScriptsReady = () => {
     if (typeof window !== 'undefined' && window.pdfjsLib && window.St?.PageFlip) {
@@ -44,17 +47,18 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !scriptsLoaded) return;
     const urlParams = new URLSearchParams(window.location.search);
     const magId = urlParams.get('id');
     if (magId) {
-      const match = magazines.find((m) => String(m.id) === magId);
+      const match = magazinesRef.current.find((m) => String(m.id) === magId);
       if (match) {
         openReader(match.pdf_path);
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
-  }, [magazines, scriptsLoaded]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scriptsLoaded]);
 
   const openReader = async (pdfPath: string) => {
     const formattedUrl = pdfPath.startsWith('/') ? pdfPath : `/${pdfPath}`;
@@ -211,9 +215,13 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
                 className="magazine-card"
                 id={`mag-card-${mag.id}`}
                 onClick={() => openReader(mag.pdf_path)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open ${mag.title}`}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openReader(mag.pdf_path); } }}
               >
                 <div className="magazine-cover">
-                  <img src={`/${mag.cover_path}`} alt={`${mag.title} Cover`} />
+                  <img src={`/${mag.cover_path}`} alt={`${mag.title} Cover`} loading="lazy" />
                 </div>
                 <h3 className="magazine-title">{mag.title}</h3>
 
@@ -289,13 +297,14 @@ export default function MagazineClient({ magazines }: MagazineClientProps) {
         </div>
       </section>
 
-      {/* High-Fidelity Audio Element for Page Turn */}
-      <audio
-        ref={audioRef}
-        id="pageFlipAudio"
-        src="https://assets.mixkit.co/active_storage/sfx/1104/1104-preview.mp3"
-        preload="auto"
-      />
+      {/* High-Fidelity Audio Element for Page Turn — loaded only when reader opens */}
+      {activeMagPdf && (
+        <audio
+          ref={audioRef}
+          src="https://assets.mixkit.co/active_storage/sfx/1104/1104-preview.mp3"
+          preload="auto"
+        />
+      )}
 
       {/* Shared QCFI Footer */}
       <Footer />

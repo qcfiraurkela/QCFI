@@ -9,27 +9,35 @@ import { getAllHeroImages, insertHeroImage } from '@/lib/supabase-db';
 import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
 
 export async function GET() {
-  const images = await getAllHeroImages();
-  return NextResponse.json(images);
+  try {
+    const images = await getAllHeroImages();
+    return NextResponse.json(images);
+  } catch (e) {
+    console.error('[GET /api/hero]', e);
+    return NextResponse.json({ error: 'Failed to fetch hero images' }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  // Auth guard
-  const res = NextResponse.json({});
-  const session = await getIronSession<SessionData>(req, res, sessionOptions);
-  if (!session.adminLoggedIn) {
-    return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
+  try {
+    const res = NextResponse.json({});
+    const session = await getIronSession<SessionData>(req, res, sessionOptions);
+    if (!session.adminLoggedIn) {
+      return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
+    }
+
+    const formData = await req.formData();
+    const file = formData.get('hero_image') as File | null;
+
+    if (!file || !isAllowedFile(file.name)) {
+      return NextResponse.json({ error: 'Invalid or missing file' }, { status: 400 });
+    }
+
+    const dbPath = await saveFile(file, '', 'uploads/hero_images');
+    const id     = await insertHeroImage(dbPath);
+    return NextResponse.json({ id, image_path: dbPath }, { status: 201 });
+  } catch (e) {
+    console.error('[POST /api/hero]', e);
+    return NextResponse.json({ error: 'Failed to upload hero image' }, { status: 500 });
   }
-
-  const formData = await req.formData();
-  const file = formData.get('hero_image') as File | null;
-
-  if (!file || !isAllowedFile(file.name)) {
-    return NextResponse.json({ error: 'Invalid or missing file' }, { status: 400 });
-  }
-
-  const dbPath = await saveFile(file, '', 'uploads/hero_images');
-  const id = await insertHeroImage(dbPath);
-
-  return NextResponse.json({ id, image_path: dbPath }, { status: 201 });
 }

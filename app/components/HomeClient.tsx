@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type {
   HeroImageRow,
@@ -142,7 +142,6 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
   const [isPlaying, setIsPlaying]       = useState(true);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const galleryRef  = useRef<HTMLDivElement>(null);
-  const touchStartX = useRef(0);
 
   /* ── FAQ state ── */
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -163,26 +162,41 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
   }, []);
 
   /* ── Gallery autoplay ── */
-  const startAutoplay = () => {
+  const startAutoplay = useCallback(() => {
     if (autoplayRef.current) clearInterval(autoplayRef.current);
     autoplayRef.current = setInterval(() => {
       setGalleryIndex(i => (i + 1) % heroImages.length);
     }, 3500);
-  };
+  }, [heroImages.length]);
 
   useEffect(() => {
     if (heroImages.length > 0 && isPlaying) startAutoplay();
     return () => { if (autoplayRef.current) clearInterval(autoplayRef.current); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlaying, heroImages.length]);
+  }, [isPlaying, heroImages.length, startAutoplay]);
 
-  const moveNext = () => {
+  const moveNext = useCallback(() => {
     setGalleryIndex(i => (i + 1) % heroImages.length);
     if (isPlaying) startAutoplay();
-  };
-  const movePrev = () => {
+  }, [heroImages.length, isPlaying, startAutoplay]);
+
+  const movePrev = useCallback(() => {
     setGalleryIndex(i => (i - 1 + heroImages.length) % heroImages.length);
     if (isPlaying) startAutoplay();
+  }, [heroImages.length, isPlaying, startAutoplay]);
+
+  const touchStartX = useRef<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    if (deltaX > 45) {
+      movePrev();
+    } else if (deltaX < -45) {
+      moveNext();
+    }
+    touchStartX.current = null;
   };
   const getCardClass = (idx: number) => {
     if (idx === galleryIndex) return 'gallery-card-3d active';
@@ -192,36 +206,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
     return 'gallery-card-3d hidden-right';
   };
 
-  /* ── Concepts marquee auto-scroll ── */
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const marqueeHovered = useRef(false);
-  useEffect(() => {
-    const el = marqueeRef.current;
-    if (!el || conceptData.length === 0) return;
-    // duplicate children for seamless loop
-    el.innerHTML += el.innerHTML;
-    el.innerHTML += el.innerHTML;
-    let raf: number;
-    const scroll = () => {
-      if (!marqueeHovered.current) {
-        el.scrollLeft += 0.5;
-        if (el.scrollLeft >= el.scrollWidth / 2) el.scrollLeft = 0;
-      }
-      raf = requestAnimationFrame(scroll);
-    };
-    raf = requestAnimationFrame(scroll);
-    const enter = () => { marqueeHovered.current = true; };
-    const leave = () => { marqueeHovered.current = false; };
-    el.addEventListener('mouseenter', enter);
-    el.addEventListener('mouseleave', leave);
-    el.addEventListener('touchstart', enter, { passive: true });
-    el.addEventListener('touchend', () => setTimeout(() => { marqueeHovered.current = false; }, 1500), { passive: true });
-    return () => {
-      cancelAnimationFrame(raf);
-      el.removeEventListener('mouseenter', enter);
-      el.removeEventListener('mouseleave', leave);
-    };
-  }, [conceptData]);
+  /* ── Concepts marquee - powered by pure GPU-accelerated CSS marquee ── */
 
   const faqs = [
     { q: '01. What is a Quality Circle?', a: 'A Quality Circle is a volunteer group composed of workers who usually work under the same supervisor and meet regularly to identify, analyze, and solve work-related problems to improve performance.' },
@@ -238,15 +223,11 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
           01. HERO
       ═══════════════════════════════════════════ */}
       <section className="hero" style={{
-        position: 'relative', height: '100vh', minHeight: 750,
+        position: 'relative', height: '100svh', minHeight: 600,
         backgroundColor: '#FAFCFF', display: 'flex', alignItems: 'center',
         borderBottom: '1px solid var(--border-light)', overflow: 'hidden', paddingTop: '7rem',
       }}>
-        {/* animated mesh + aura via CSS ::before/::after applied through globals */}
-        <style>{`
-          .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(8,23,56,.025) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(to bottom,rgba(8,23,56,.025) 1px,transparent 1px) 0 0/40px 40px;-webkit-mask-image:radial-gradient(circle at center,black 30%,transparent 80%);mask-image:radial-gradient(circle at center,black 30%,transparent 80%);z-index:0;pointer-events:none}
-          .hero::after{content:'';position:absolute;width:150vw;height:150vw;top:50%;left:50%;transform:translate(-50%,-50%);background:conic-gradient(from 0deg,transparent 0%,rgba(29,69,237,.04) 20%,transparent 40%,rgba(29,69,237,.03) 60%,transparent 80%);animation:heroAuraSpin 40s linear infinite;z-index:0;pointer-events:none;border-radius:50%}
-        `}</style>
+        {/* Hero mesh + aura defined in globals.css — .hero::before / .hero::after */}
 
         {/* Corners */}
         <div className="hero-corner corner-tl"><div className="corner-cross" /></div>
@@ -257,15 +238,14 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
         <div className="container hero-grid-layout" style={{
           display: 'grid', gridTemplateColumns: '1.15fr 0.85fr', gap: '4rem',
           alignItems: 'center', width: '100%', position: 'relative', zIndex: 2,
-          transform: 'translateY(-1.5rem)',
         }}>
           {/* Left */}
-          <div className="hero-left-content reveal-up is-visible" style={{ paddingRight: '2rem', maxWidth: 580 }}>
+          <div className="hero-left-content reveal-up is-visible" style={{ maxWidth: 580 }}>
             <span className="eyebrow">[ Quality Circle Forum Of India ]</span>
             <h1 style={{
-              fontFamily: 'var(--font-serif)', fontSize: 'clamp(3.2rem,5vw,5.2rem)',
+              fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.8rem,5vw,5.2rem)',
               lineHeight: 1.05, fontWeight: 400, letterSpacing: '-0.02em',
-              color: 'var(--text-dark)', marginBottom: '1.5rem', textAlign: 'left',
+              color: 'var(--text-dark)', marginBottom: '1.5rem',
             }}>
               <span style={{ display: 'block', paddingBottom: '0.1rem' }}>Raurkela Chapter</span>
               <span style={{
@@ -328,7 +308,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
             <div className="cinematic-corner bottom-right" />
             <div className="cinematic-cross" />
             <div className="industrial-frame">
-              <img src="/qcfi_rkl.png" alt="QCFI Raurkela About" className="industrial-img-inner" />
+              <img src="/qcfi_rkl.png" alt="QCFI Raurkela Chapter building" className="industrial-img-inner" loading="lazy" />
             </div>
           </div>
         </div>
@@ -344,7 +324,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
             <div className="cinematic-corner bottom-right" />
             <div className="cinematic-cross" />
             <div className="industrial-frame dark-frame">
-              <img src="/about_qcfi.png" alt="About QCFI" className="industrial-img-inner" />
+              <img src="/about_qcfi.png" alt="QCFI national organization overview" className="industrial-img-inner" loading="lazy" />
             </div>
           </div>
           <div className="reveal-3d delay-200">
@@ -379,12 +359,8 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
             ref={galleryRef}
             onMouseEnter={() => { if (isPlaying && autoplayRef.current) clearInterval(autoplayRef.current); }}
             onMouseLeave={() => { if (isPlaying) startAutoplay(); }}
-            onTouchStart={e => { touchStartX.current = e.changedTouches[0].screenX; }}
-            onTouchEnd={e => {
-              const dx = e.changedTouches[0].screenX - touchStartX.current;
-              if (dx < -50) moveNext();
-              if (dx >  50) movePrev();
-            }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             <button className="carousel-btn" style={{ left: '5%', zIndex: 30 }} onClick={movePrev} aria-label="Previous">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
@@ -401,7 +377,7 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
                   onClick={() => { if (idx !== galleryIndex) { setGalleryIndex(idx); if (isPlaying) startAutoplay(); } }}
                 >
                   <div className="gallery-img-wrapper">
-                    <img src={`/${img.image_path}`} alt="Gallery" />
+                    <img src={`/${img.image_path}`} alt={`Gallery photo ${idx + 1}`} loading={idx === 0 ? 'eager' : 'lazy'} />
                   </div>
                   {/* Glass Controls (visible only on active) */}
                   <div className="gallery-glass-controls">
@@ -451,11 +427,17 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4rem' }}>
             {magazines.length > 0 ? magazines.map((mag, i) => (
-              <div key={mag.id} className="mag-card-elite" onClick={() => window.location.href = `/magazine?id=${mag.id}`}>
+              <div key={mag.id} className="mag-card-elite"
+                onClick={() => window.location.href = `/magazine?id=${mag.id}`}
+                role="button"
+                tabIndex={0}
+                aria-label={`Read ${mag.title}`}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = `/magazine?id=${mag.id}`; } }}
+              >
                 <div className="mag-cover-3d">
                   <div className="mag-cover-overlay" />
                   <div className="mag-issue-badge">Vol {i + 1}</div>
-                  <img src={`/${mag.cover_path}`} alt={mag.title} />
+                  <img src={`/${mag.cover_path}`} alt={mag.title} loading="lazy" />
                 </div>
                 <div className="mag-info-elite">
                   <div className="text-micro mag-micro-badge">
@@ -500,37 +482,38 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
           </div>
         </div>
 
-        <div style={{ width: '100%', WebkitMaskImage: 'linear-gradient(to right,transparent 0%,black 12%,black 88%,transparent 100%)', maskImage: 'linear-gradient(to right,transparent 0%,black 12%,black 88%,transparent 100%)' }}>
-          <div
-            ref={marqueeRef}
-            className="marquee-scroll-area"
-            style={{ display: 'flex', overflowX: 'auto', scrollBehavior: 'auto', msOverflowStyle: 'none', padding: '2rem 5vw 4rem 5vw' }}
-          >
-            {conceptData.length > 0 ? conceptData.map((item, i) => (
-              <div key={item.concept.id} className="concept-item">
-                <div className="concept-meta-top">
-                  <span className="text-micro text-accent">Methodology</span>
-                  <span className="index">0{i + 1}</span>
-                </div>
-                <div className="concept-img-box">
-                  <div className="concept-img-inner">
-                    {item.images[0]
-                      ? <img src={`/${item.images[0].image_path}`} alt={item.concept.title} />
-                      : <div style={{ width: '100%', height: '100%', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" opacity="0.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg></div>
-                    }
+        <div className="marquee-viewport">
+          <div className="marquee-track" style={{ padding: '2rem 24px 4rem' }}>
+            {conceptData.length > 0 ? (
+              [...conceptData, ...conceptData].map((item, i) => {
+                const realIndex = (i % conceptData.length) + 1;
+                return (
+                  <div key={`${item.concept.id}-${i}`} className="concept-item">
+                    <div className="concept-meta-top">
+                      <span className="text-micro text-accent">Methodology</span>
+                      <span className="index">0{realIndex}</span>
+                    </div>
+                    <div className="concept-img-box">
+                      <div className="concept-img-inner">
+                        {item.images[0]
+                          ? <img src={`/${item.images[0].image_path}`} alt={item.concept.title} loading="lazy" />
+                          : <div style={{ width: '100%', height: '100%', background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" opacity="0.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg></div>
+                        }
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', paddingTop: '0.5rem' }}>
+                      <h3 className="concept-title">{item.concept.title}</h3>
+                    </div>
+                    <Link href={`/quality-concepts#concept-${realIndex}`} className="concept-view-btn" aria-label={`View ${item.concept.title}`}>
+                      View More
+                      <div className="btn-arrow">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                      </div>
+                    </Link>
                   </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', paddingTop: '0.5rem' }}>
-                  <h3 className="concept-title">{item.concept.title}</h3>
-                </div>
-                <Link href={`/quality-concepts#concept-${i + 1}`} className="concept-view-btn">
-                  View More
-                  <div className="btn-arrow">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-                  </div>
-                </Link>
-              </div>
-            )) : (
+                );
+              })
+            ) : (
               <div style={{ paddingLeft: '5vw' }}>
                 <p className="text-body">System updating operational concepts. Check back soon.</p>
               </div>
@@ -634,13 +617,24 @@ export default function HomeClient({ heroImages, magazines, conceptData, quizCou
               <div
                 key={i}
                 className={`faq-item${activeFaq === i ? ' active' : ''}`}
-                onClick={() => setActiveFaq(activeFaq === i ? null : i)}
               >
-                <button className="faq-question">
+                <button
+                  className="faq-question"
+                  onClick={() => setActiveFaq(activeFaq === i ? null : i)}
+                  aria-expanded={activeFaq === i}
+                  aria-controls={`faq-answer-${i}`}
+                >
                   <span>{faq.q}</span>
-                  <div className="faq-icon-elite" />
+                  <div className="faq-icon-elite" aria-hidden="true" />
                 </button>
-                <div className="faq-answer">{faq.a}</div>
+                <div
+                  id={`faq-answer-${i}`}
+                  className="faq-answer"
+                  role="region"
+                  aria-labelledby={`faq-btn-${i}`}
+                >
+                  {faq.a}
+                </div>
               </div>
             ))}
           </div>
@@ -718,19 +712,64 @@ function ContactForm() {
     setSubmitted(true);
   };
   return submitted ? (
-    <div style={{ padding: '2rem', background: 'rgba(29,69,237,0.05)', borderRadius: 12, border: '1px solid rgba(29,69,237,0.1)', textAlign: 'center' }}>
-      <p className="text-body" style={{ color: 'var(--accent)', fontWeight: 600 }}>Message received. We&apos;ll be in touch.</p>
+    <div style={{ padding: '2.5rem', background: 'rgba(29,69,237,0.06)', borderRadius: 16, border: '1px solid rgba(29,69,237,0.15)', textAlign: 'center' }}>
+      <p className="text-body" style={{ color: 'var(--accent)', fontWeight: 600, fontSize: '1.1rem' }}>
+        Message received successfully. We will be in touch shortly.
+      </p>
     </div>
   ) : (
-    <form onSubmit={handleSubmit} className="contact-form">
-      <input type="text" placeholder="Full Name" required />
-      <div className="input-row">
-        <input type="email" placeholder="Email Address" required />
-        <input type="tel" placeholder="Phone Number" />
+    <form onSubmit={handleSubmit} className="contact-form" aria-label="Contact QCFI Raurkela">
+      <div>
+        <input
+          id="contact-name"
+          name="fullName"
+          type="text"
+          placeholder="Full Name"
+          aria-label="Full Name"
+          autoComplete="name"
+          required
+        />
       </div>
-      <input type="text" placeholder="Organisation / Company" />
-      <textarea rows={4} placeholder="Inquiry / Message" required />
-      <button type="submit" className="elite-btn" style={{ marginTop: '1rem' }}>
+      <div className="input-row">
+        <input
+          id="contact-email"
+          name="email"
+          type="email"
+          placeholder="Email Address"
+          aria-label="Email Address"
+          autoComplete="email"
+          required
+        />
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          placeholder="Phone Number"
+          aria-label="Phone Number"
+          autoComplete="tel"
+        />
+      </div>
+      <div>
+        <input
+          id="contact-org"
+          name="organization"
+          type="text"
+          placeholder="Organisation / Company"
+          aria-label="Organisation / Company"
+          autoComplete="organization"
+        />
+      </div>
+      <div>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows={4}
+          placeholder="Inquiry / Message"
+          aria-label="Inquiry / Message"
+          required
+        />
+      </div>
+      <button type="submit" className="elite-btn" style={{ marginTop: '0.5rem', minHeight: '52px' }}>
         Initialize Contact
         <div className="btn-arrow">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 19L19 5M19 5v10M19 5H9" /></svg>

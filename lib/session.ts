@@ -4,9 +4,13 @@ export interface SessionData {
   adminLoggedIn?: boolean;
 }
 
+// SESSION_SECRET must be 32+ chars, set in .env.local
+// Falls back to a dev-only string — will warn but not crash
+const SESSION_SECRET =
+  process.env.SESSION_SECRET ?? 'qcfi_raurkela_dev_only_secret_key_2026!!';
+
 export const sessionOptions: SessionOptions = {
-  // 32+ character secret — change this before going live
-  password: 'qcfi_raurkela_nextjs_super_secret_key_2026!',
+  password: SESSION_SECRET,
   cookieName: 'qcfi_admin_session',
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',

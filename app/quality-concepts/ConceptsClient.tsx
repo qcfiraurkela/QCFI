@@ -31,6 +31,21 @@ export default function ConceptsClient({ conceptData }: { conceptData: ConceptWi
     }
   };
 
+  /* Keyboard arrow navigation between concepts */
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept when user is typing in an input
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return;
+      if (e.key === 'ArrowRight') {
+        setActive(prev => prev < conceptData.length ? prev + 1 : 1);
+      } else if (e.key === 'ArrowLeft') {
+        setActive(prev => prev > 1 ? prev - 1 : conceptData.length);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [conceptData.length]);
+
   if (conceptData.length === 0) {
     return (
       <div className="container concept-panels-container">
@@ -55,10 +70,13 @@ export default function ConceptsClient({ conceptData }: { conceptData: ConceptWi
     <>
       {/* ── Sticky tab bar ── */}
       <div className="concept-tabs-wrapper">
-        <div className="tabs-scroll-area">
+        <div className="tabs-scroll-area" role="tablist" aria-label="Quality Concepts Methodologies">
           {conceptData.map((item, i) => (
             <button
               key={item.concept.id}
+              role="tab"
+              aria-selected={active === i + 1}
+              aria-controls={`concept-panel-${item.concept.id}`}
               className={`tab-btn${active === i + 1 ? ' active' : ''}`}
               data-target={`concept-${i + 1}`}
               onClick={() => switchConcept(i + 1)}
@@ -105,6 +123,7 @@ export default function ConceptsClient({ conceptData }: { conceptData: ConceptWi
                         src={`/${current.images[0].image_path}`}
                         alt={current.concept.title}
                         className="concept-main-img"
+                        loading="lazy"
                       />
                     ) : (
                       <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-secondary)' }}>
@@ -132,7 +151,7 @@ export default function ConceptsClient({ conceptData }: { conceptData: ConceptWi
                 <div className="secondary-gallery">
                   {current.images.slice(1).map(img => (
                     <div key={img.id} className="sec-gallery-item">
-                      <img src={`/${img.image_path}`} alt={`${current.concept.title} view`} />
+                      <img src={`/${img.image_path}`} alt={`${current.concept.title} visual reference`} loading="lazy" />
                     </div>
                   ))}
                 </div>
