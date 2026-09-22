@@ -1,0 +1,35 @@
+/**
+ * GET  /api/hero  → returns all hero images
+ * POST /api/hero  → uploads a new hero image (admin only)
+ */
+import { NextRequest, NextResponse } from 'next/server';
+import { getIronSession } from 'iron-session';
+import { sessionOptions, type SessionData } from '@/lib/session';
+import { getAllHeroImages, insertHeroImage } from '@/lib/supabase-db';
+import { isAllowedFile, saveFile } from '@/lib/supabase-upload';
+
+export async function GET() {
+  const images = await getAllHeroImages();
+  return NextResponse.json(images);
+}
+
+export async function POST(req: NextRequest) {
+  // Auth guard
+  const res = NextResponse.json({});
+  const session = await getIronSession<SessionData>(req, res, sessionOptions);
+  if (!session.adminLoggedIn) {
+    return NextResponse.json({ error: 'Unauthorised' }, { status: 401 });
+  }
+
+  const formData = await req.formData();
+  const file = formData.get('hero_image') as File | null;
+
+  if (!file || !isAllowedFile(file.name)) {
+    return NextResponse.json({ error: 'Invalid or missing file' }, { status: 400 });
+  }
+
+  const dbPath = await saveFile(file, '', 'uploads/hero_images');
+  const id = await insertHeroImage(dbPath);
+
+  return NextResponse.json({ id, image_path: dbPath }, { status: 201 });
+}

@@ -1,0 +1,199 @@
+{
+  "hero_images": [
+    {
+      "id": 2,
+      "image_path": "uploads/hero_images/HERO_1.jpeg"
+    },
+    {
+      "id": 3,
+      "image_path": "uploads/hero_images/HERO_2.jpeg"
+    },
+    {
+      "id": 4,
+      "image_path": "uploads/hero_images/HERO_3.jpeg"
+    },
+    {
+      "id": 5,
+      "image_path": "uploads/hero_images/HERO_4.jpeg"
+    },
+    {
+      "id": 6,
+      "image_path": "uploads/hero_images/HERO_5.jpeg"
+    },
+    {
+      "id": 7,
+      "image_path": "uploads/hero_images/HERO_6.jpeg"
+    },
+    {
+      "id": 8,
+      "image_path": "uploads/hero_images/HERO_7.jpeg"
+    },
+    {
+      "id": 9,
+      "image_path": "uploads/hero_images/HERO_8.jpeg"
+    },
+    {
+      "id": 10,
+      "image_path": "uploads/hero_images/HERO_9.jpeg"
+    },
+    {
+      "id": 11,
+      "image_path": "uploads/hero_images/HERO_10.jpeg"
+    },
+    {
+      "id": 12,
+      "image_path": "uploads/hero_images/HERO_11.jpeg"
+    },
+    {
+      "id": 13,
+      "image_path": "uploads/hero_images/HERO_12.jpeg"
+    },
+    {
+      "id": 14,
+      "image_path": "uploads/hero_images/HERO_13.jpeg"
+    },
+    {
+      "id": 15,
+      "image_path": "uploads/hero_images/HERO_14.jpeg"
+    }
+  ],
+  "events": [
+    {
+      "id": 3,
+      "name": "sss",
+      "event_date": "2026-09-16",
+      "title": "sss",
+      "description": "scasas",
+      "main_image_path": "uploads/event_images/VEG_THALI.jpeg"
+    },
+    {
+      "id": 4,
+      "name": "ffdW",
+      "event_date": "2026-12-22",
+      "title": "cascsa",
+      "description": "sacsac",
+      "main_image_path": "uploads/event_images/Sentinel_Edge_Logo.png"
+    }
+  ],
+  "event_images": [
+    {
+      "id": 3,
+      "event_id": 3,
+      "image_path": "uploads/event_images/Untitled_design_2_page-0001.jpg"
+    },
+    {
+      "id": 4,
+      "event_id": 4,
+      "image_path": "uploads/event_images/opex_logo_2.png"
+    }
+  ],
+  "quality_concepts": [
+    {
+      "id": 6,
+      "title": "Learn 5S",
+      "description": "5S — KEY STEPS FOR INDUSTRIES\r\n\r\n1. SORT\r\n   • Identify what is necessary and what is unnecessary.\r\n   • Remove obsolete, damaged, duplicate or unused items.\r\n   • Keep only what is required for the work.\r\n   • Dispose of or control unwanted items through approved procedures.\r\n\r\n2. SET IN ORDER\r\n   • Give every required item a clearly defined location.\r\n   • Arrange tools, materials and documents according to frequency and sequence of use.\r\n   • Use labels, markings, storage locations and visual controls.\r\n   • Make required items easy to find, use and return.\r\n\r\n3. SHINE\r\n   • Clean the workplace, equipment and work areas regularly.\r\n   • Treat cleaning as an inspection activity, not only housekeeping.\r\n   • Identify leaks, damage, abnormalities and unsafe conditions.\r\n   • Correct or report problems through the appropriate system.\r\n\r\n4. STANDARDIZE\r\n   • Establish simple and documented workplace standards.\r\n   • Define responsibilities, cleaning schedules and inspection routines.\r\n   • Use checklists, visual standards and standard work instructions.\r\n   • Ensure employees follow the same agreed process.\r\n\r\n5. SUSTAIN\r\n   • Make 5S part of everyday work—not a one-time activity.\r\n   • Conduct periodic inspections and internal 5S audits.\r\n   • Track observations, corrective actions and improvement opportunities.\r\n   • Involve workers and supervisors in continuous improvement.\r\n   • Review standards whenever processes, equipment or risks change.\r\n\r\n6. SAFETY & COMPLIANCE\r\n   • Identify workplace hazards and implement appropriate controls.\r\n   • Keep emergency exits, fire equipment, electrical panels and safety equipment accessible.\r\n   • Follow applicable occupational-health-and-safety laws, regulations and organizational procedures.\r\n   • Provide appropriate training, competence and personal protective equipment where required.\r\n   • Maintain records and evidence required by applicable systems and regulations.\r\n\r\n7. CONTINUOUS IMPROVEMENT\r\n   • Do not stop after achieving a clean and organized workplace.\r\n   • Identify recurring problems and eliminate their root causes.\r\n   • Encourage employee suggestions and corrective actions.\r\n   • Measure performance and continuously improve workplace standards.\r\n\r\nCORE PRINCIPLE:\r\n“Right item. Right place. Right condition. Right standard. Every day.”"
+    },
+    {
+      "id": 7,
+      "title": "Learn LEAN QC",
+      "description": "LEAN PRINCIPLES — KEY STEPS\r\n\r\n1. DEFINE VALUE\r\n   • Understand what the customer actually needs.\r\n   • Identify what creates value from the customer’s perspective.\r\n   • Eliminate activities that do not contribute to that value.\r\n\r\n2. MAP THE VALUE STREAM\r\n   • Map the complete process from beginning to end.\r\n   • Identify every step involved in delivering the product or service.\r\n   • Detect waste, delays, bottlenecks and unnecessary movement.\r\n   • Focus improvement efforts on the areas creating the greatest waste.\r\n\r\n3. CREATE FLOW\r\n   • Ensure work moves smoothly through the process.\r\n   • Reduce interruptions, waiting time and bottlenecks.\r\n   • Balance processes according to actual demand.\r\n   • Maintain a consistent and efficient workflow.\r\n\r\n4. ESTABLISH PULL\r\n   • Produce or deliver based on actual customer demand.\r\n   • Avoid unnecessary production, inventory and resource use.\r\n   • Supply materials and services when they are required.\r\n   • Use demand-driven systems wherever practical.\r\n\r\n5. PURSUE PERFECTION\r\n   • Continuously identify and eliminate waste.\r\n   • Encourage employees to suggest improvements.\r\n   • Measure performance and review results regularly.\r\n   • Standardize successful improvements.\r\n   • Treat continuous improvement as an ongoing process.\r\n\r\nCORE PRINCIPLE:\r\n“Create maximum customer value with minimum waste through continuous improvement.”"
+    },
+    {
+      "id": 8,
+      "title": "Learn 6 SIGMA",
+      "description": "SIX SIGMA — KEY STEPS\r\n\r\n1. DEFINE\r\n   • Clearly define the problem, customer requirements and project objectives.\r\n   • Establish the scope, expected outcomes and measurable goals.\r\n   • Ensure the project addresses a genuine business or process need.\r\n\r\n2. MEASURE\r\n   • Establish reliable measures for current process performance.\r\n   • Collect relevant and accurate data.\r\n   • Determine the current baseline and identify performance gaps.\r\n   • Verify that measurement methods are consistent and appropriate.\r\n\r\n3. ANALYZE\r\n   • Examine the collected data to understand process performance.\r\n   • Identify patterns, variations and potential causes of problems.\r\n   • Use appropriate analytical methods to determine root causes.\r\n   • Validate important findings with objective evidence.\r\n\r\n4. IMPROVE\r\n   • Develop solutions that address verified root causes.\r\n   • Test improvements before full implementation where appropriate.\r\n   • Evaluate the effect of changes using measurable results.\r\n   • Implement effective solutions in a controlled manner.\r\n\r\n5. CONTROL\r\n   • Establish controls to maintain the improved process.\r\n   • Standardize successful methods and document requirements.\r\n   • Monitor key performance indicators and process variation.\r\n   • Respond promptly when performance moves outside defined limits.\r\n   • Continue reviewing the process for further improvement.\r\n\r\nCORE PRINCIPLE:\r\n“Use data and structured problem-solving to reduce variation, improve performance and deliver consistent value.”"
+    },
+    {
+      "id": 9,
+      "title": "Learn KAIZEN",
+      "description": "KAIZEN — KEY PRINCIPLES\r\n\r\n1. IDENTIFY OPPORTUNITIES\r\n   • Observe the workplace and identify areas that can be improved.\r\n   • Focus on problems, inefficiencies, delays and recurring issues.\r\n   • Use facts and observations rather than assumptions.\r\n\r\n2. INVOLVE PEOPLE\r\n   • Encourage employees at every level to contribute ideas.\r\n   • Create an environment where improvement suggestions are welcomed.\r\n   • Use the knowledge and experience of people closest to the process.\r\n\r\n3. IMPROVE IN SMALL STEPS\r\n   • Prefer practical, incremental improvements where appropriate.\r\n   • Test changes before wider implementation.\r\n   • Avoid unnecessary complexity when a simple improvement can solve the problem.\r\n\r\n4. ELIMINATE WASTE\r\n   • Identify unnecessary activities, waiting, movement, defects and resource usage.\r\n   • Reduce activities that do not create value.\r\n   • Improve the use of time, materials, equipment and human effort.\r\n\r\n5. STANDARDIZE IMPROVEMENTS\r\n   • Document successful improvements.\r\n   • Update standard work, procedures and visual controls.\r\n   • Ensure the improved method is consistently followed.\r\n\r\n6. CHECK THE RESULTS\r\n   • Measure whether the improvement achieved its intended result.\r\n   • Compare performance before and after the change.\r\n   • Use evidence to determine whether further action is required.\r\n\r\n7. CONTINUE THE CYCLE\r\n   • Treat improvement as an ongoing activity.\r\n   • Regularly review processes and identify new opportunities.\r\n   • Build continuous improvement into everyday work.\r\n\r\nCORE PRINCIPLE:\r\n“Small, consistent improvements—made by everyone, every day—create lasting progress.”"
+    },
+    {
+      "id": 11,
+      "title": "NEW TOOLS",
+      "description": "NEW TOOLS — KEY AREAS\r\n\r\n1. DATA ANALYSIS\r\n   • Convert process data into meaningful information.\r\n   • Identify trends, patterns and performance gaps.\r\n   • Use evidence to support improvement decisions.\r\n\r\n2. PROCESS MAPPING\r\n   • Visualize the complete workflow from start to finish.\r\n   • Identify unnecessary steps, delays and bottlenecks.\r\n   • Simplify processes wherever practical.\r\n\r\n3. VISUAL MANAGEMENT\r\n   • Make important information easy to see and understand.\r\n   • Use charts, boards, indicators, labels and visual controls.\r\n   • Monitor performance and abnormalities at a glance.\r\n\r\n4. PROBLEM SOLVING\r\n   • Define problems clearly before taking corrective action.\r\n   • Identify and verify the underlying causes.\r\n   • Implement practical solutions and evaluate their results.\r\n\r\n5. TEAM COLLABORATION\r\n   • Involve people who understand the process.\r\n   • Encourage ideas, observations and improvement suggestions.\r\n   • Build shared ownership of improvement activities.\r\n\r\n6. ROOT CAUSE ANALYSIS\r\n   • Look beyond symptoms to identify the actual cause.\r\n   • Use structured methods and objective evidence.\r\n   • Prevent recurrence by addressing verified root causes.\r\n\r\nCORE PRINCIPLE:\r\n“Use the right tools, involve the right people, and turn problems into measurable improvements.”"
+    },
+    {
+      "id": 12,
+      "title": "Learn TQM",
+      "description": "TQM — TOTAL QUALITY MANAGEMENT\r\n\r\n1. FOCUS ON THE CUSTOMER\r\n   • Understand customer needs, expectations and requirements.\r\n   • Deliver products and services that consistently meet those requirements.\r\n   • Use customer feedback to identify opportunities for improvement.\r\n\r\n2. CONTINUOUS IMPROVEMENT\r\n   • Regularly identify opportunities to improve processes and performance.\r\n   • Reduce waste, variation, defects and unnecessary activities.\r\n   • Encourage small, consistent improvements across the organization.\r\n\r\n3. QUALITY IMPROVEMENT\r\n   • Build quality into every process rather than relying only on final inspection.\r\n   • Prevent defects and address problems at their source.\r\n   • Maintain consistent standards across products, services and operations.\r\n\r\n4. ACCURATE EVALUATION\r\n   • Measure performance using reliable and relevant data.\r\n   • Review results against defined objectives and standards.\r\n   • Use evidence to identify gaps and guide improvement actions.\r\n\r\n5. INVOLVE ALL EMPLOYEES\r\n   • Encourage employees at every level to participate in quality improvement.\r\n   • Value ideas, knowledge and experience from people closest to the work.\r\n   • Build shared responsibility for quality and organizational performance.\r\n\r\nCORE PRINCIPLE:\r\n“Quality is everyone’s responsibility—built into every process, measured with evidence, and improved continuously.”"
+    },
+    {
+      "id": 13,
+      "title": "Learn QC",
+      "description": "LEARN QC — QUALITY CONTROL FUNDAMENTALS\r\n\r\n1. UNDERSTAND QUALITY\r\n   • Know the required specifications, standards and acceptance criteria.\r\n   • Understand what “conforming” and “non-conforming” mean.\r\n   • Focus on preventing defects, not only detecting them.\r\n\r\n2. INSPECT & MEASURE\r\n   • Check materials, components and products against defined requirements.\r\n   • Use appropriate and calibrated measuring instruments.\r\n   • Record measurements accurately and consistently.\r\n\r\n3. IDENTIFY DEFECTS\r\n   • Detect deviations from specifications as early as possible.\r\n   • Classify defects according to their type, severity and impact.\r\n   • Prevent non-conforming products from moving to the next stage.\r\n\r\n4. ANALYZE THE CAUSE\r\n   • Investigate why the defect occurred.\r\n   • Use data and structured problem-solving methods.\r\n   • Distinguish the root cause from the visible symptom.\r\n\r\n5. TAKE CORRECTIVE ACTION\r\n   • Correct identified problems through controlled actions.\r\n   • Address the cause to prevent recurrence.\r\n   • Verify whether the corrective action is effective.\r\n\r\n6. STANDARDIZE & DOCUMENT\r\n   • Maintain inspection procedures, specifications and records.\r\n   • Follow approved work instructions and quality standards.\r\n   • Keep traceable evidence of inspections and corrective actions.\r\n\r\n7. PREVENT RECURRENCE\r\n   • Monitor process performance continuously.\r\n   • Identify recurring defects and improvement opportunities.\r\n   • Strengthen controls where necessary.\r\n\r\nCORE PRINCIPLE:\r\n“Measure accurately. Detect early. Correct the cause. Prevent recurrence.”"
+    },
+    {
+      "id": 14,
+      "title": "Learn SQC",
+      "description": "LEARN SQC — STATISTICAL QUALITY CONTROL\r\n\r\n1. UNDERSTAND VARIATION\r\n   • Learn why processes naturally vary.\r\n   • Distinguish normal variation from unusual variation.\r\n   • Understand how variation affects quality and consistency.\r\n\r\n2. COLLECT QUALITY DATA\r\n   • Collect accurate and relevant process data.\r\n   • Use consistent measurement methods.\r\n   • Ensure data is reliable before making decisions.\r\n\r\n3. ANALYZE THE DATA\r\n   • Use statistical methods to understand process behavior.\r\n   • Identify patterns, trends and unusual observations.\r\n   • Convert data into meaningful quality information.\r\n\r\n4. USE CONTROL CHARTS\r\n   • Monitor process performance over time.\r\n   • Identify signals that may indicate special causes.\r\n   • Take action when the process shows significant changes.\r\n\r\n5. CONTROL PROCESS PERFORMANCE\r\n   • Maintain processes within defined requirements and control limits.\r\n   • Investigate abnormal variation promptly.\r\n   • Use appropriate corrective and preventive actions.\r\n\r\n6. IMPROVE WITH EVIDENCE\r\n   • Use statistical evidence to guide improvement decisions.\r\n   • Reduce unnecessary variation and defects.\r\n   • Verify whether improvements produce sustained results.\r\n\r\nCORE PRINCIPLE:\r\n“Use reliable data and statistical thinking to understand variation, control processes and improve quality.”"
+    }
+  ],
+  "concept_images": [
+    {
+      "id": 6,
+      "concept_id": 6,
+      "image_path": "uploads/concept_images/LEARN_5S.png"
+    },
+    {
+      "id": 7,
+      "concept_id": 7,
+      "image_path": "uploads/concept_images/LEARN_LEAN_QC.png"
+    },
+    {
+      "id": 8,
+      "concept_id": 8,
+      "image_path": "uploads/concept_images/LEARN_6_SIGMA.png"
+    },
+    {
+      "id": 9,
+      "concept_id": 9,
+      "image_path": "uploads/concept_images/Learn_Kaizen.png"
+    },
+    {
+      "id": 11,
+      "concept_id": 11,
+      "image_path": "uploads/concept_images/NEW_TOOLS.png"
+    },
+    {
+      "id": 12,
+      "concept_id": 12,
+      "image_path": "uploads/concept_images/Learn_TQM.png"
+    },
+    {
+      "id": 13,
+      "concept_id": 13,
+      "image_path": "uploads/concept_images/LEARN_QC.png"
+    },
+    {
+      "id": 14,
+      "concept_id": 14,
+      "image_path": "uploads/concept_images/LEARN_SQC.png"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1,
+      "question": "GVSDV",
+      "option_a": "E",
+      "option_b": "EE",
+      "option_c": "EEE",
+      "option_d": "EEEE",
+      "correct_option": "C"
+    }
+  ],
+  "magazines": [
+    {
+      "id": 2,
+      "title": "Kaleidoscope e-magazine Published by QCFI Rourkela chapter",
+      "pdf_path": "uploads/magazines/KaleidoscopeFY25-26_Q4_issue.pdf",
+      "cover_path": "uploads/covers/magazine_cover_image_1.png"
+    },
+    {
+      "id": 3,
+      "title": "Kaleidoscope(FY26-27) Q1 issue",
+      "pdf_path": "uploads/magazines/KaleidoscopeFY26-27_Q1_issue.pdf",
+      "cover_path": "uploads/covers/magazine_cover_image_2.png"
+    }
+  ]
+}
